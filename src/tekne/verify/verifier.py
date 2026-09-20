@@ -217,44 +217,6 @@ class LLMVerifier:
         )
 
 
-class VerifierCascade:
-    """Run verifiers cheapest-first and stop as soon as one is decisive."""
-
-    def __init__(
-        self,
-        *,
-        structural: StructuralVerifier | None = None,
-        embedding: EmbeddingVerifier | None = None,
-        llm: LLMVerifier | None = None,
-    ) -> None:
-        self.structural = structural or StructuralVerifier()
-        self.embedding = embedding
-        self.llm = llm
-        self.stats = {"structural": 0, "embedding": 0, "llm": 0, "escalated": 0}
-
-    def check(self, mention, doc: Document) -> VerifierDecision:
-        decision = self.structural.check(mention, doc)
-        self.stats["structural"] += 1
-        if decision.verdict is Verdict.REJECT:
-            return decision
-
-        if self.embedding is not None and self.embedding.available:
-            decision = self.embedding.check(mention, doc)
-            self.stats["embedding"] += 1
-            if decision.verdict is not Verdict.ABSTAIN:
-                return decision
-
-        if self.llm is not None and self.llm.available:
-            self.stats["escalated"] += 1
-            llm_decision = self.llm.check(mention, doc)
-            self.stats["llm"] += 1
-            if llm_decision.verdict is not Verdict.ABSTAIN:
-                return llm_decision
-            return llm_decision
-
-        return decision
-
-
 def _sigmoid(x: float) -> float:
     import math
 

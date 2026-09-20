@@ -54,14 +54,6 @@ class Series:
             if totals[year]
         }
 
-    def role_mix(self, year: int) -> dict[str, float]:
-        counts = self.roles.get(year)
-        if not counts:
-            return {}
-        total = sum(counts.values()) or 1
-        return {role: n / total for role, n in counts.items()}
-
-
 @dataclass
 class TrendTable:
     series: dict[str, Series] = field(default_factory=dict)
@@ -214,12 +206,6 @@ def emerging(
 
     out.sort(key=lambda e: (-e.growth, -e.slope))
     return out[:top_n]
-
-
-def declining(table: TrendTable, **kwargs: Any) -> list[Emergence]:
-    rows = emerging(table, top_n=10**6, **kwargs)
-    rows.sort(key=lambda e: (e.growth, e.slope))
-    return rows[: kwargs.get("top_n", 25)]
 
 
 def role_transitions(table: TrendTable, *, min_docs: int = 6) -> list[dict[str, Any]]:

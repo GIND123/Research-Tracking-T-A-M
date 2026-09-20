@@ -27,11 +27,9 @@ detectable.
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 import time
-from collections.abc import Iterator, Sequence
-from dataclasses import dataclass
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
@@ -48,14 +46,6 @@ _ATOM = {"a": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/
 
 class ArxivThrottled(RuntimeError):
     """Raised when the arXiv API keeps refusing a query after backing off."""
-
-
-@dataclass
-class FetchStats:
-    requested: int = 0
-    fetched: int = 0
-    failed: int = 0
-    skipped: int = 0
 
 
 # --- arXiv -----------------------------------------------------------------
@@ -316,14 +306,6 @@ def read_jsonl(path: str | Path) -> list[Document]:
             if line:
                 out.append(Document.model_validate_json(line))
     return out
-
-
-def iter_jsonl(path: str | Path) -> Iterator[dict[str, Any]]:
-    with Path(path).open(encoding="utf-8") as fh:
-        for line in fh:
-            line = line.strip()
-            if line:
-                yield json.loads(line)
 
 
 def _text(node: Any, path: str) -> str:

@@ -27,7 +27,7 @@ and reconciled with an ontology later.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import defaultdict
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from typing import Any
@@ -296,20 +296,3 @@ def _stable_id(text: str) -> str:
     import hashlib
 
     return hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
-
-
-def within_document_coref(mentions: Sequence[TechMention]) -> dict[str, list[str]]:
-    """Group a document's mentions by normalised form.
-
-    Kept separate from corpus canonicalisation because the two answer different
-    questions: this one is "how many distinct technologies does this document
-    discuss", which is the quantity a per-document report shows.
-    """
-    groups: dict[str, list[str]] = defaultdict(list)
-    for mention in mentions:
-        groups[lemma_key(mention.span.surface)].append(mention.mention_id)
-    return dict(groups)
-
-
-def frequency_table(mentions: Sequence[TechMention]) -> Counter[str]:
-    return Counter(m.canonical_id or lemma_key(m.span.surface) for m in mentions)

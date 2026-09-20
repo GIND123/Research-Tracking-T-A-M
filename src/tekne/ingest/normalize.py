@@ -239,10 +239,3 @@ def _is_false_break(text: str, end: int) -> bool:
     if token.isdigit():
         return True
     return False
-
-
-def sentence_index_for(spans: list[tuple[int, int]], offset: int) -> int:
-    for i, (s, e) in enumerate(spans):
-        if s <= offset < e:
-            return i
-    return -1
