@@ -1,0 +1,702 @@
+{
+  "_comment": "Trigger phrases for stance classification. Weights are log-odds-ish scores combined additively with the section prior in classify/roler.py; they were set by hand from a 60-sentence development sample and are deliberately coarse. `window` is how many characters either side of the mention the cue must fall within to fire.",
+  "window": 140,
+  "cues": {
+    "proposed": [
+      [
+        "we propose",
+        2.4
+      ],
+      [
+        "we present",
+        2.0
+      ],
+      [
+        "we introduce",
+        2.4
+      ],
+      [
+        "we develop",
+        2.0
+      ],
+      [
+        "we design",
+        2.0
+      ],
+      [
+        "we describe",
+        1.2
+      ],
+      [
+        "we construct",
+        1.6
+      ],
+      [
+        "this paper proposes",
+        2.6
+      ],
+      [
+        "this paper presents",
+        2.2
+      ],
+      [
+        "this work introduces",
+        2.4
+      ],
+      [
+        "in this paper we",
+        1.4
+      ],
+      [
+        "in this work we",
+        1.4
+      ],
+      [
+        "our proposed",
+        2.6
+      ],
+      [
+        "our novel",
+        2.4
+      ],
+      [
+        "our approach",
+        1.8
+      ],
+      [
+        "our method",
+        1.8
+      ],
+      [
+        "our model",
+        1.8
+      ],
+      [
+        "our framework",
+        1.8
+      ],
+      [
+        "we call",
+        1.6
+      ],
+      [
+        "which we call",
+        2.2
+      ],
+      [
+        "termed",
+        1.4
+      ],
+      [
+        "dubbed",
+        1.8
+      ],
+      [
+        "named",
+        1.0
+      ],
+      [
+        "the proposed",
+        2.0
+      ],
+      [
+        "proposed method",
+        1.6
+      ],
+      [
+        "novel",
+        1.2
+      ],
+      [
+        "new",
+        0.6
+      ],
+      [
+        "first to",
+        1.4
+      ],
+      [
+        "the present invention provides",
+        2.6
+      ],
+      [
+        "the present invention relates to",
+        1.8
+      ],
+      [
+        "disclosed herein",
+        2.2
+      ],
+      [
+        "is disclosed",
+        1.6
+      ],
+      [
+        "according to the present invention",
+        2.0
+      ],
+      [
+        "an object of the present invention",
+        1.8
+      ],
+      [
+        "we build",
+        1.8
+      ],
+      [
+        "we propose to",
+        2.2
+      ],
+      [
+        "is proposed",
+        1.8
+      ],
+      [
+        "this invention",
+        2.0
+      ],
+      [
+        "the invention provides",
+        2.2
+      ],
+      [
+        "we contribute",
+        2.0
+      ],
+      [
+        "our contribution",
+        1.8
+      ]
+    ],
+    "used": [
+      [
+        "we use",
+        2.0
+      ],
+      [
+        "we adopt",
+        2.0
+      ],
+      [
+        "we employ",
+        2.2
+      ],
+      [
+        "we apply",
+        1.8
+      ],
+      [
+        "we utilize",
+        2.0
+      ],
+      [
+        "we utilise",
+        2.0
+      ],
+      [
+        "we implement",
+        1.8
+      ],
+      [
+        "we train",
+        1.4
+      ],
+      [
+        "we fine-tune",
+        1.8
+      ],
+      [
+        "using",
+        1.2
+      ],
+      [
+        "based on",
+        1.4
+      ],
+      [
+        "built on",
+        1.8
+      ],
+      [
+        "built upon",
+        1.8
+      ],
+      [
+        "relies on",
+        1.6
+      ],
+      [
+        "leverages",
+        1.8
+      ],
+      [
+        "leveraging",
+        1.8
+      ],
+      [
+        "implemented in",
+        2.0
+      ],
+      [
+        "implemented with",
+        2.0
+      ],
+      [
+        "implemented using",
+        2.0
+      ],
+      [
+        "by means of",
+        1.2
+      ],
+      [
+        "with the help of",
+        1.4
+      ],
+      [
+        "is applied",
+        1.2
+      ],
+      [
+        "is used to",
+        1.4
+      ],
+      [
+        "serves as",
+        1.2
+      ],
+      [
+        "consists of",
+        1.0
+      ],
+      [
+        "comprises",
+        0.8
+      ],
+      [
+        "includes",
+        0.6
+      ],
+      [
+        "equipped with",
+        1.4
+      ],
+      [
+        "coupled to",
+        0.8
+      ],
+      [
+        "configured to",
+        0.8
+      ],
+      [
+        "uses",
+        1.6
+      ],
+      [
+        "use of",
+        1.4
+      ],
+      [
+        "employs",
+        1.8
+      ],
+      [
+        "employing",
+        1.8
+      ],
+      [
+        "applies",
+        1.4
+      ],
+      [
+        "applying",
+        1.4
+      ],
+      [
+        "adopts",
+        1.8
+      ],
+      [
+        "adopting",
+        1.8
+      ],
+      [
+        "utilizes",
+        1.8
+      ],
+      [
+        "utilises",
+        1.8
+      ],
+      [
+        "utilizing",
+        1.8
+      ],
+      [
+        "incorporates",
+        1.6
+      ],
+      [
+        "integrates",
+        1.6
+      ],
+      [
+        "combines",
+        1.4
+      ],
+      [
+        "performed with",
+        1.4
+      ],
+      [
+        "carried out using",
+        1.6
+      ],
+      [
+        "trained on",
+        1.4
+      ],
+      [
+        "evaluated on",
+        1.2
+      ],
+      [
+        "runs on",
+        1.4
+      ],
+      [
+        "deployed on",
+        1.4
+      ]
+    ],
+    "compared": [
+      [
+        "compared with",
+        2.4
+      ],
+      [
+        "compared to",
+        2.4
+      ],
+      [
+        "in comparison",
+        2.0
+      ],
+      [
+        "compare against",
+        2.4
+      ],
+      [
+        "we compare",
+        2.2
+      ],
+      [
+        "versus",
+        1.6
+      ],
+      [
+        "outperforms",
+        2.2
+      ],
+      [
+        "outperform",
+        2.2
+      ],
+      [
+        "outperforming",
+        2.2
+      ],
+      [
+        "surpasses",
+        2.0
+      ],
+      [
+        "better than",
+        1.8
+      ],
+      [
+        "worse than",
+        1.8
+      ],
+      [
+        "relative to",
+        1.4
+      ],
+      [
+        "baseline",
+        2.2
+      ],
+      [
+        "baselines",
+        2.2
+      ],
+      [
+        "as a baseline",
+        2.6
+      ],
+      [
+        "against",
+        1.0
+      ],
+      [
+        "competing",
+        1.6
+      ],
+      [
+        "alternative approaches",
+        1.6
+      ],
+      [
+        "prior systems",
+        1.6
+      ],
+      [
+        "improves over",
+        2.0
+      ],
+      [
+        "gains over",
+        1.8
+      ],
+      [
+        "ablat",
+        1.2
+      ],
+      [
+        "ablation",
+        1.4
+      ],
+      [
+        "we evaluate against",
+        2.2
+      ],
+      [
+        "state-of-the-art baselines",
+        2.0
+      ]
+    ],
+    "background": [
+      [
+        "previous work",
+        2.2
+      ],
+      [
+        "prior work",
+        2.2
+      ],
+      [
+        "earlier work",
+        2.0
+      ],
+      [
+        "existing",
+        1.4
+      ],
+      [
+        "conventional",
+        1.8
+      ],
+      [
+        "conventionally",
+        2.0
+      ],
+      [
+        "traditionally",
+        2.0
+      ],
+      [
+        "traditional",
+        1.6
+      ],
+      [
+        "has been used",
+        1.8
+      ],
+      [
+        "have been used",
+        1.8
+      ],
+      [
+        "has been proposed",
+        2.0
+      ],
+      [
+        "have been proposed",
+        2.0
+      ],
+      [
+        "has been shown",
+        1.4
+      ],
+      [
+        "it is known",
+        1.8
+      ],
+      [
+        "are known",
+        1.6
+      ],
+      [
+        "is known",
+        1.6
+      ],
+      [
+        "in recent years",
+        1.6
+      ],
+      [
+        "recently",
+        1.2
+      ],
+      [
+        "researchers have",
+        1.8
+      ],
+      [
+        "studies have",
+        1.8
+      ],
+      [
+        "a number of",
+        1.0
+      ],
+      [
+        "typically",
+        1.4
+      ],
+      [
+        "commonly",
+        1.4
+      ],
+      [
+        "widely used",
+        1.6
+      ],
+      [
+        "well known",
+        1.6
+      ],
+      [
+        "well-known",
+        1.6
+      ],
+      [
+        "state of the art",
+        1.0
+      ],
+      [
+        "for example",
+        0.8
+      ],
+      [
+        "such as",
+        0.6
+      ],
+      [
+        "known in the art",
+        2.4
+      ],
+      [
+        "heretofore",
+        2.0
+      ],
+      [
+        "hitherto",
+        2.0
+      ]
+    ]
+  },
+  "section_prior": {
+    "title": {
+      "proposed": 1.6,
+      "used": 0.2,
+      "compared": -0.6,
+      "background": -0.4
+    },
+    "abstract": {
+      "proposed": 0.9,
+      "used": 0.4,
+      "compared": 0.0,
+      "background": 0.0
+    },
+    "introduction": {
+      "proposed": 0.5,
+      "used": 0.1,
+      "compared": 0.1,
+      "background": 0.8
+    },
+    "related_work": {
+      "proposed": -1.6,
+      "used": -0.4,
+      "compared": 0.8,
+      "background": 2.0
+    },
+    "method": {
+      "proposed": 1.2,
+      "used": 1.2,
+      "compared": -0.4,
+      "background": -0.6
+    },
+    "experiment": {
+      "proposed": -0.4,
+      "used": 1.4,
+      "compared": 1.2,
+      "background": -0.4
+    },
+    "results": {
+      "proposed": -0.4,
+      "used": 0.4,
+      "compared": 1.6,
+      "background": -0.4
+    },
+    "conclusion": {
+      "proposed": 1.0,
+      "used": 0.2,
+      "compared": 0.0,
+      "background": 0.0
+    },
+    "patent_field": {
+      "proposed": 0.0,
+      "used": 0.0,
+      "compared": -0.8,
+      "background": 1.6
+    },
+    "patent_background": {
+      "proposed": -2.0,
+      "used": -0.4,
+      "compared": 0.4,
+      "background": 2.4
+    },
+    "patent_summary": {
+      "proposed": 1.8,
+      "used": 0.6,
+      "compared": -0.6,
+      "background": -0.8
+    },
+    "patent_detail": {
+      "proposed": 0.4,
+      "used": 1.2,
+      "compared": -0.4,
+      "background": -0.2
+    },
+    "claim_independent": {
+      "proposed": 0.6,
+      "used": 0.4,
+      "compared": -1.6,
+      "background": -1.8
+    },
+    "claim_dependent": {
+      "proposed": 0.2,
+      "used": 0.6,
+      "compared": -1.6,
+      "background": -1.8
+    },
+    "other": {
+      "proposed": 0.0,
+      "used": 0.0,
+      "compared": 0.0,
+      "background": 0.0
+    }
+  }
+}

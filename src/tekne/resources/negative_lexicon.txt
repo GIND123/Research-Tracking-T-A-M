@@ -1,0 +1,347 @@
+# Surfaces that must never be emitted as technology mentions.
+#
+# Three families, all of which a head-noun recaller will happily propose:
+#   (a) patent drafting boilerplate -- high frequency, zero information
+#   (b) bare generic nouns -- only technological once modified
+#   (c) scholarly furniture -- section names, figure references, hedges
+#
+# Matching is case-insensitive over the lemmatised surface, with leading
+# determiners stripped. See guard/negative.py.
+
+## -- patent boilerplate ----------------------------------------------------
+present invention
+the invention
+subject invention
+instant invention
+present disclosure
+subject matter
+embodiment
+preferred embodiment
+exemplary embodiment
+illustrative embodiment
+alternative embodiment
+disclosed embodiment
+example embodiment
+one embodiment
+another embodiment
+various embodiments
+person of ordinary skill
+one skilled in the art
+those skilled in the art
+skill in the art
+scope of the invention
+spirit of the invention
+accompanying drawings
+brief description
+detailed description
+cross reference
+related application
+incorporated by reference
+prior art
+background art
+technical field
+field of the invention
+object of the invention
+advantage of the invention
+first aspect
+second aspect
+further aspect
+another aspect
+exemplary implementation
+without limitation
+by way of example
+it should be understood
+it will be appreciated
+claim
+claims
+appended claims
+
+## -- bare generic nouns ----------------------------------------------------
+# These are rejected only when they constitute the *entire* candidate surface.
+# "heat exchanger apparatus" survives; bare "apparatus" does not.
+apparatus
+device
+devices
+means
+unit
+units
+element
+elements
+component
+components
+member
+members
+portion
+portions
+part
+parts
+section
+sections
+assembly
+arrangement
+configuration
+structure
+structures
+material
+materials
+composition
+substance
+object
+objects
+item
+items
+thing
+things
+feature
+features
+aspect
+aspects
+factor
+factors
+parameter
+parameters
+value
+values
+data
+information
+signal
+signals
+input
+inputs
+output
+outputs
+result
+results
+process
+processes
+operation
+operations
+step
+steps
+function
+functions
+application
+applications
+implementation
+solution
+solutions
+technology
+technologies
+tool
+tools
+product
+products
+equipment
+machine
+machines
+instrument
+instruments
+platform
+platforms
+environment
+setting
+settings
+condition
+conditions
+state
+states
+mode
+modes
+type
+types
+form
+forms
+level
+levels
+range
+ranges
+number
+numbers
+amount
+set
+sets
+group
+groups
+plurality
+example
+examples
+instance
+instances
+
+## -- scholarly furniture ---------------------------------------------------
+figure
+figures
+fig
+table
+tables
+equation
+equations
+appendix
+supplementary material
+related work
+future work
+this paper
+this work
+this study
+this article
+our work
+our paper
+the authors
+the present study
+experimental results
+state of the art
+state-of-the-art
+recent years
+recent work
+previous work
+prior work
+existing work
+literature
+survey
+review
+contribution
+contributions
+limitation
+limitations
+baseline
+baselines
+ablation
+ablation study
+hyperparameter
+hyperparameters
+training data
+test set
+validation set
+
+## -- bare technology heads -------------------------------------------------
+# These appear in tech_heads.txt because they make a *modified* phrase a
+# technology ("graph neural network", "vapour compression cycle"). On their own
+# they name a category, not a technology, and a tracking corpus that admits them
+# reports "system" and "method" as the dominant technologies of every decade.
+# Same whole-candidate rule as the generic nouns above: only rejected when the
+# entry is the entire span. Single words that really are specific technologies
+# (graphene, lidar, blockchain, CRISPR) are deliberately absent.
+model
+models
+algorithm
+algorithms
+network
+networks
+method
+methodology
+technique
+techniques
+approach
+approaches
+framework
+frameworks
+scheme
+schemes
+mechanism
+mechanisms
+procedure
+procedures
+pipeline
+strategy
+strategies
+heuristic
+architecture
+architectures
+system
+systems
+protocol
+protocols
+module
+modules
+layer
+layers
+block
+blocks
+cell
+cells
+circuit
+circuits
+controller
+controllers
+driver
+drivers
+interface
+interfaces
+processor
+processors
+chip
+chips
+board
+boards
+panel
+panels
+array
+arrays
+matrix
+filter
+filters
+converter
+converters
+generator
+generators
+motor
+motors
+engine
+engines
+pump
+pumps
+valve
+valves
+library
+libraries
+sensor
+sensors
+actuator
+actuators
+detector
+detectors
+estimator
+classifier
+classifiers
+encoder
+decoder
+agent
+agents
+policy
+policies
+head
+heads
+gate
+gates
+core
+cores
+memory
+storage
+cache
+buffer
+queue
+index
+database
+databases
+probe
+probes
+electrode
+electrodes
+substrate
+substrates
+membrane
+membranes
+coating
+coatings
+film
+films
+composite
+composites
+alloy
+alloys
+polymer
+polymers
+catalyst
+catalysts
+reactor
+reactors

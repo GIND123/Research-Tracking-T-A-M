@@ -1,0 +1,110 @@
+{
+  "_comment": "Evidence sources for the type classifier (classify/typer.py). `head_nouns` maps the syntactic head of a candidate to a type vote; `umbrella` lists surfaces that are whole research fields regardless of head; `orthographic` holds regexes whose match is evidence of a named artefact. Votes are summed, not short-circuited, so a candidate like 'ImageNet dataset' gets DATASET from the head and ARTIFACT from orthography and the head wins on weight.",
+
+  "head_nouns": {
+    "task": ["detection", "classification", "segmentation", "recognition", "identification",
+             "prediction", "forecasting", "estimation", "regression", "translation",
+             "generation", "summarization", "summarisation", "retrieval", "ranking",
+             "clustering", "reconstruction", "denoising", "deblurring", "inpainting",
+             "localization", "localisation", "tracking", "navigation", "planning",
+             "scheduling", "allocation", "diagnosis", "screening", "monitoring",
+             "inspection", "verification", "authentication", "compression", "synthesis",
+             "alignment", "matching", "parsing", "tagging", "labeling", "labelling",
+             "answering", "captioning", "disambiguation", "extraction", "mining",
+             "purification", "separation", "sequencing", "imaging", "sensing"],
+
+    "metric": ["accuracy", "precision", "recall", "f1", "f-measure", "auc", "auroc",
+               "map", "mrr", "ndcg", "bleu", "rouge", "meteor", "chrf", "perplexity",
+               "wer", "cer", "psnr", "ssim", "fid", "mse", "rmse", "mae", "iou",
+               "latency", "throughput", "efficiency", "yield", "selectivity",
+               "conversion", "sensitivity", "specificity", "score", "rate", "error"],
+
+    "dataset": ["dataset", "datasets", "corpus", "corpora", "benchmark", "benchmarks",
+                "testbed", "collection", "treebank", "wordnet", "knowledgebase"],
+
+    "tool": ["library", "toolkit", "package", "software", "framework", "simulator",
+             "compiler", "runtime", "sdk", "api", "platform", "environment", "suite"],
+
+    "material": ["alloy", "steel", "polymer", "copolymer", "elastomer", "resin",
+                 "ceramic", "glass", "oxide", "nitride", "carbide", "sulfide",
+                 "sulphide", "hydroxide", "perovskite", "zeolite", "graphene",
+                 "nanotube", "nanowire", "nanosheet", "nanoparticle", "quantum dot",
+                 "fullerene", "composite", "laminate", "coating", "film", "foam",
+                 "gel", "slurry", "powder", "electrolyte", "solvent", "monomer",
+                 "adsorbent", "sorbent", "catalyst", "cocatalyst", "precursor",
+                 "substrate", "wafer", "membrane", "textile", "fiber", "fibre"],
+
+    "field": ["learning", "intelligence", "computing", "informatics", "engineering",
+              "science", "robotics", "photonics", "electronics", "mechanics",
+              "communications", "networking", "cryptography", "biotechnology",
+              "nanotechnology", "metallurgy", "chemistry", "physics", "medicine"],
+
+    "method": ["algorithm", "method", "methodology", "technique", "approach", "scheme",
+               "procedure", "strategy", "heuristic", "mechanism", "process",
+               "protocol", "pipeline", "framework", "architecture", "model",
+               "principle", "criterion", "transform", "decomposition", "factorization",
+               "factorisation", "regularization", "regularisation", "normalization",
+               "normalisation", "quantization", "quantisation", "distillation",
+               "augmentation", "deposition", "etching", "lithography", "annealing",
+               "sintering", "doping", "electrolysis", "fermentation", "titration"],
+
+    "artifact": ["network", "transformer", "encoder", "decoder", "autoencoder",
+                 "classifier", "detector", "estimator", "solver", "optimizer",
+                 "optimiser", "embedding", "tokenizer", "tokeniser", "circuit",
+                 "transistor", "amplifier", "oscillator", "modulator", "converter",
+                 "transceiver", "antenna", "waveguide", "resonator", "diode",
+                 "capacitor", "memristor", "sensor", "actuator", "transducer",
+                 "processor", "microcontroller", "accelerator", "chip", "controller",
+                 "battery", "supercapacitor", "cathode", "anode", "electrode",
+                 "turbine", "engine", "motor", "pump", "valve", "compressor",
+                 "gearbox", "bearing", "robot", "manipulator", "gripper", "laser",
+                 "led", "interferometer", "spectrometer", "radar", "lidar", "sonar",
+                 "camera", "scanner", "reactor", "exchanger", "condenser",
+                 "assay", "primer", "vaccine", "antibody", "enzyme", "polymerase",
+                 "nuclease", "stent", "implant", "catheter", "sequencer",
+                 "beamformer", "precoder", "equalizer", "equaliser", "multiplexer",
+                 "router", "switch", "gateway", "relay", "repeater", "blockchain",
+                 "cipher", "hash", "codec", "database", "cache", "filesystem"]
+  },
+
+  "head_weights": {
+    "dataset": 2.6, "metric": 2.4, "tool": 1.8, "material": 2.0,
+    "task": 2.2, "field": 1.8, "artifact": 1.4, "method": 1.4
+  },
+
+  "umbrella": [
+    "artificial intelligence", "machine learning", "deep learning",
+    "natural language processing", "computer vision", "speech processing",
+    "information retrieval", "data mining", "knowledge representation",
+    "reinforcement learning", "computer graphics", "human computer interaction",
+    "software engineering", "computer architecture", "operating systems",
+    "distributed systems", "cloud computing", "edge computing", "quantum computing",
+    "cyber security", "cybersecurity", "computer security", "cryptography",
+    "wireless communication", "wireless communications", "mobile communication",
+    "signal processing", "image processing", "control theory", "robotics",
+    "internet of things", "big data", "bioinformatics", "computational biology",
+    "materials science", "nanotechnology", "biotechnology", "renewable energy",
+    "energy storage", "power electronics", "semiconductor manufacturing",
+    "additive manufacturing", "autonomous driving", "precision medicine",
+    "drug discovery", "gene therapy", "synthetic biology", "telecommunications"
+  ],
+
+  "orthographic": {
+    "_comment": "Each entry is [name, regex, weight]. Fired against the raw surface.",
+    "patterns": [
+      ["all_caps_acronym", "^[A-Z][A-Z0-9]{1,7}(?:-[A-Z0-9]{1,4})?$", 2.2],
+      ["camel_case", "^[A-Z][a-z]+(?:[A-Z][a-z0-9]+)+$", 2.4],
+      ["versioned", "\\b(?:v?\\d+(?:\\.\\d+)+|-\\d+[Bb]|\\d+[BbMm])\\b", 1.8],
+      ["acronym_with_digits", "^[A-Za-z]{2,10}-?\\d{1,3}$", 1.6],
+      ["proper_hyphenated", "^[A-Z][A-Za-z]+-[A-Z][A-Za-z]+$", 1.8],
+      ["greek_or_symbol", "^[A-Za-z]*[\\u03b1-\\u03c9][A-Za-z-]*$", 0.8],
+      ["chemical_formula", "^(?:[A-Z][a-z]?\\d*){2,}$", 2.0]
+    ]
+  },
+
+  "granularity": {
+    "_comment": "0 = research field, 1 = generic technique family, 2 = specific artefact. Evolution tracking is run at level 2 by default; level 1 is aggregated as a fallback when level-2 counts are sparse.",
+    "field": 0, "task": 1, "method": 1, "artifact": 2,
+    "material": 2, "dataset": 2, "metric": 1, "tool": 2, "not_tech": 2
+  }
+}
