@@ -254,6 +254,36 @@ class Canonicalizer:
         return sorted(pairs)
 
 
+    def _pick_label(self, anchor: str, entry: CanonicalEntry) -> str:
+        """Prefer the longest alias: expansions beat acronyms as display forms."""
+        candidates = entry.aliases or {anchor}
+        return max(candidates, key=lambda a: (len(a.split()), len(a)))
+
+    # -- application --------------------------------------------------------
+
+    def assign(self, mention: TechMention) -> TechMention:
+        key = self._resolve_key(mention)
+        anchor = self._key_to_id.get(key, key)
+        entry = self.entries.get(anchor)
+        canonical_id = entry.canonical_id if entry else f"tekne:{_stable_id(key)}"
+        return mention.model_copy(update={"canonical_id": canonical_id})
+
+    def attestation(self) -> dict[str, int]:
+        """Earliest corpus year per canonical id, for the temporal guard."""
+        return {
+            e.canonical_id: e.first_seen for e in self.entries.values() if e.first_seen is not None
+        }
+
+    def summary(self) -> dict[str, Any]:
+        kb_linked = sum(1 for e in self.entries.values() if e.kb_id)
+        return {
+            "clusters": len(self.entries),
+            "kb_linked": kb_linked,
+            "nil_clusters": len(self.entries) - kb_linked,
+            "alias_pairs": len(self._alias_pairs),
+        }
+
+
 def _heads_compatible(a: str, b: str) -> bool:
     """Two terms may only merge if they share a head noun or one contains the other."""
     ha, hb = a.split()[-1], b.split()[-1]
