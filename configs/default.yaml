@@ -1,0 +1,65 @@
+# Default configuration. Every field maps to a dataclass in tekne/config.py;
+# unknown keys are an error rather than being ignored.
+
+models:
+  # The escalation cascade. Proposal is the bulk workload and runs mid-tier;
+  # verification is a narrow judgement over one sentence and runs cheapest;
+  # adjudication sees only the contested residue and runs on the strongest model.
+  # Using different models for proposing and verifying is not only a cost
+  # decision -- a verifier sharing the proposer's weights shares its blind spots.
+  proposer: claude-sonnet-5
+  verifier: claude-haiku-4-5
+  adjudicator: claude-opus-5
+  effort: medium
+
+budget:
+  max_llm_calls_per_doc: 12
+  max_usd_per_doc: 0.25
+  max_seconds_per_doc: 180.0
+  circuit_breaker_failures: 5
+
+recall:
+  use_patterns: true
+  use_abbrev: true
+  use_cvalue: true
+  use_gazetteer: true
+  use_llm: true
+  cvalue_threshold: 2.0
+  max_chunk_tokens: 6
+  # Gating the chunker on the head-noun lexicon costs ~53% of gold recall on the
+  # development corpus. Left off; the ablation quantifies it.
+  require_tech_head: false
+  llm_max_windows: 3
+  llm_max_input_chars: 9000
+
+guards:
+  grounding: true
+  negative_lexicon: true
+  injection: true
+  consensus: true
+  consensus_min_proposers: 2
+  evidence: true
+  temporal: true
+  provenance: true
+  verifier: true
+  # Relocating a near-miss span by similarity can shift it onto a different
+  # entity. Off by default; the grounding ladder reports where each span landed.
+  allow_fuzzy_grounding: false
+
+verify:
+  use_embedding: true
+  use_llm: true
+  batch_size: 20
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  adjudicate_disagreements: true
+
+output:
+  abstain_below: 0.45
+  tracked_types: [artifact, method, material]
+  keep_rejected: true
+  max_mentions_per_doc: 2000
+
+kb_path: data/kb/cso.json
+cache_path: runs/llm_cache.sqlite
+seed: 20260101
+label: default

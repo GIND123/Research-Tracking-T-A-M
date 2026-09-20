@@ -1,0 +1,14 @@
+# Deterministic + neural tiers only: no API key required, fully reproducible.
+# This is the configuration every number in the paper's offline rows comes from.
+
+recall:
+  use_llm: false
+
+verify:
+  use_embedding: true
+  use_llm: false
+  adjudicate_disagreements: false
+
+kb_path: data/kb/cso.json
+cache_path: null
+label: offline

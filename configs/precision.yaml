@@ -1,0 +1,19 @@
+# High-precision operating point, for building a tracking corpus where a false
+# technology is more costly than a missed one. Raises the abstention threshold
+# and demands two independent recallers.
+
+guards:
+  consensus: true
+  consensus_min_proposers: 2
+
+verify:
+  use_embedding: true
+  use_llm: true
+  adjudicate_disagreements: true
+
+output:
+  abstain_below: 0.72
+  tracked_types: [artifact, material]
+
+kb_path: data/kb/cso.json
+label: precision
