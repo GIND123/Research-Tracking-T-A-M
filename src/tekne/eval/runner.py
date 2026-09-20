@@ -179,10 +179,12 @@ def run_condition(
     condition: Condition,
     documents: Sequence[Document],
     gold: dict[str, GoldDocument],
+    *,
+    analyses: dict[str, Any] | None = None,
 ) -> ConditionResult:
     started = time.monotonic()
     pipeline = Pipeline(condition.config)
-    results = pipeline.run(list(documents))
+    results = pipeline.run(list(documents), analyses=analyses)
     elapsed = time.monotonic() - started
 
     system: dict[str, list[TechMention]] = {r.doc_id: list(r.mentions) for r in results}
@@ -213,11 +215,19 @@ def run_suite(
     out_dir: str | Path | None = None,
     verbose: bool = True,
 ) -> list[ConditionResult]:
+    # Parsed once, shared by every condition: the parse does not depend on the
+    # configuration and is the most expensive stage.
+    from ..nlp import analyse
+
+    if verbose:
+        print(f"parsing {len(documents)} documents once for all conditions")
+    analyses = {doc.doc_id: analyse(doc) for doc in documents}
+
     results: list[ConditionResult] = []
     for condition in conditions:
         if verbose:
             print(f"[{condition.name}] {condition.description}")
-        result = run_condition(condition, documents, gold)
+        result = run_condition(condition, documents, gold, analyses=analyses)
         results.append(result)
         if verbose:
             m = result.report

@@ -252,12 +252,26 @@ class Pipeline:
 
     # -- corpus -------------------------------------------------------------
 
-    def run(self, documents: Sequence[Document]) -> list[ExtractionResult]:
-        """Extract over a corpus, including the passes that need all documents."""
+    def run(
+        self,
+        documents: Sequence[Document],
+        *,
+        analyses: dict[str, Any] | None = None,
+    ) -> list[ExtractionResult]:
+        """Extract over a corpus, including the passes that need all documents.
+
+        ``analyses`` lets a caller supply parses it already has. The evaluation
+        harness runs the same corpus through a dozen configurations, and parsing
+        is both the single most expensive stage and completely independent of
+        configuration, so re-parsing per condition is pure waste.
+        """
         docs = list(documents)
         started = time.monotonic()
 
-        analyses = {doc.doc_id: analyse(doc) for doc in docs}
+        analyses = dict(analyses) if analyses else {}
+        for doc in docs:
+            if doc.doc_id not in analyses:
+                analyses[doc.doc_id] = analyse(doc)
         if self.config.recall.use_cvalue:
             self.corpus_stats = build_corpus_stats(docs)
 
@@ -513,6 +527,12 @@ class Pipeline:
     def _stage_build_mentions(self, board: Blackboard) -> None:
         t0 = time.monotonic()
         doc = board.document
+        # Warm the embedding cache in one batch. The typer and the embedding
+        # verifier both ask for a surface's prototype similarities, and asking
+        # one string at a time costs ~8ms against ~0.8ms batched -- a tenfold
+        # difference that, at a couple of thousand candidates per patent,
+        # dominated the whole run.
+        self._warm_embeddings(board)
         mentions: list[TechMention] = []
         type_counts: dict[str, int] = {}
 
@@ -735,6 +755,13 @@ class Pipeline:
         )
 
     # -- helpers ------------------------------------------------------------
+
+    def _warm_embeddings(self, board: Blackboard) -> None:
+        if self.embedding is None or not self.embedding.available:
+            return
+        surfaces = sorted({c.span.surface for c in board.candidates})
+        if surfaces:
+            self.embedding.encode(surfaces)
 
     def _evidence_for(self, board: Blackboard, cand: Candidate) -> Evidence | None:
         idx, start, end = board.analysis.sentence_containing(cand.span.start)
