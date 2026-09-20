@@ -357,3 +357,31 @@ def test_shipped_default_yaml_matches_the_dataclass_defaults():
 
 def _seq(value):
     return value if isinstance(value, (list, tuple)) else [value]
+
+
+def test_no_gold_row_names_something_the_negative_lexicon_rejects():
+    """The guideline and the lexicon must agree.
+
+    A gold mention that the negative lexicon rejects is unreachable by
+    construction, so it silently caps recall and makes the lexicon ablation look
+    better than it is. Three such rows existed in an early version.
+    """
+    import csv
+    from pathlib import Path
+
+    from tekne.lexicons import negative_lexicon
+
+    path = Path("data/gold/annotations.tsv")
+    if not path.is_file():
+        pytest.skip("annotation table not present")
+
+    negative = negative_lexicon()
+    offenders = []
+    with path.open(encoding="utf-8") as fh:
+        for row in csv.reader(fh, delimiter="\t"):
+            if not row or row[0].startswith("#") or len(row) < 4:
+                continue
+            surface = row[1].strip()
+            if lemma_key(surface) in negative or surface.lower() in negative:
+                offenders.append((row[0].strip(), surface))
+    assert offenders == [], offenders

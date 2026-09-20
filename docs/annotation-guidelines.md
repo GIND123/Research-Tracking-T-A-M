@@ -92,7 +92,7 @@ find the technology.
 Because a row covers a whole document, the role recorded is the **strongest
 stance** the document takes, ordered `claimed > proposed > compared > used >
 background`. In practice this makes patent annotations overwhelmingly `claimed`
-(566 of 908 gold mentions), which is correct — a term in an independent claim is
+(553 of 895 gold mentions), which is correct — a term in an independent claim is
 being monopolised regardless of how the abstract also uses it — but it does mean
 role accuracy on patents measures something closer to zone detection than to
 stance classification. Per-occurrence role annotation would be the right fix and
@@ -120,6 +120,13 @@ machine-readable form of this list.
    submissions in each category, which over-represents LLM-adjacent work in the
    CS categories.
 3. **Document-level roles.** See above.
-4. **Genre imbalance in mention count.** Patents contribute 569 of 908 gold
+4. **Genre imbalance in mention count.** Patents contribute 556 of 895 gold
    mentions from 20 of 44 documents, because claim language repeats component
    names. Per-genre figures are reported separately for this reason.
+5. **Consistency with the negative lexicon is enforced, not assumed.** Three
+   early annotations (`controller`, `processor`, `filter` as bare patent
+   components) contradicted the bare-category-noun rule above and were removed;
+   `scripts/make_gold.py` and the test suite now check that no gold row names
+   something the negative lexicon rejects. Where a guideline and an annotation
+   disagree, the guideline wins, because otherwise the lexicon is being tuned to
+   the gold rather than the other way round.
