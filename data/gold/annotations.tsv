@@ -1,0 +1,471 @@
+# Gold annotations for TEKNE. One row per technology per document; the expander
+# in scripts/make_gold.py anchors each to every occurrence inside the evaluation
+# zone. Guidelines in docs/annotation-guidelines.md.
+#
+# doc_id	surface	type	role	[note]
+#
+# ---------------------------------------------------------------- papers ----
+arxiv:2609.20822v1	coding agents	method	background
+arxiv:2609.20822v1	language model	method	used
+arxiv:2609.20822v1	robot controller	artifact	used
+arxiv:2609.20822v1	SafeHarness	artifact	proposed
+arxiv:2609.20822v1	obstacle-aware harnesses	method	proposed
+arxiv:2609.20822v1	Obstacle-aware route planning	method	proposed
+arxiv:2609.20822v1	bounding boxes	method	used
+arxiv:2609.20822v1	Obstacle-aware contact execution	method	proposed
+arxiv:2609.20822v1	robot manipulation	task	unknown
+arxiv:2609.20822v1	task success	metric	unknown
+arxiv:2609.20822v1	collision avoidance	metric	unknown
+
+arxiv:2609.20821v1	Embedding Models	method	used
+arxiv:2609.20821v1	Embedding spaces	method	used
+arxiv:2609.20821v1	embedding space	method	used
+arxiv:2609.20821v1	string similarity	method	background
+arxiv:2609.20821v1	semantic similarity	task	unknown
+
+arxiv:2609.20808v1	TikTok	tool	used
+arxiv:2609.20808v1	Truth Social	tool	used
+arxiv:2609.20808v1	boundary construction	method	used
+arxiv:2609.20808v1	threat construction	method	used
+arxiv:2609.20808v1	scapegoating	method	used
+arxiv:2609.20808v1	dehumanization	method	used
+arxiv:2609.20808v1	computational social science	field	unknown
+arxiv:2609.20808v1	single-label detection	task	compared
+
+arxiv:2609.20804v1	coding harness	method	used
+arxiv:2609.20804v1	Coding harnesses	method	used
+arxiv:2609.20804v1	context management	method	compared
+arxiv:2609.20804v1	rule-based elision	method	compared
+arxiv:2609.20804v1	LLM-based summarization	method	compared
+arxiv:2609.20804v1	SWE-Bench Verified	dataset	used
+arxiv:2609.20804v1	Terminal-Bench 2.1	dataset	used
+arxiv:2609.20804v1	action space	method	compared
+arxiv:2609.20804v1	bash	tool	compared
+arxiv:2609.20804v1	software-engineering	field	unknown
+
+arxiv:2609.20800v1	JEPA-Anything	artifact	proposed
+arxiv:2609.20800v1	orthogonal predictive factorization	method	proposed
+arxiv:2609.20800v1	OPF	method	proposed
+arxiv:2609.20800v1	joint-embedding predictive architectures	artifact	background
+arxiv:2609.20800v1	JEPA	artifact	compared
+arxiv:2609.20800v1	World modeling	task	unknown
+arxiv:2609.20800v1	representation learning	task	unknown
+arxiv:2609.20800v1	molecular dynamics	method	used
+arxiv:2609.20800v1	Interventional Pong	dataset	used
+arxiv:2609.20800v1	patient-derived organoids	artifact	used
+arxiv:2609.20800v1	cell co-cultures	method	used
+
+arxiv:2609.20784v1	RetireOPD	artifact	proposed
+arxiv:2609.20784v1	Self-Retiring On-Policy Distillation	method	proposed
+arxiv:2609.20784v1	on-policy distillation	method	used
+arxiv:2609.20784v1	OPD	method	used
+arxiv:2609.20784v1	reinforcement learning	method	used
+arxiv:2609.20784v1	RL	method	used
+arxiv:2609.20784v1	Adaptive Retirement	method	proposed
+arxiv:2609.20784v1	Qwen2.5	artifact	used
+arxiv:2609.20784v1	ALFWorld	dataset	used
+arxiv:2609.20784v1	WebShop	dataset	used
+arxiv:2609.20784v1	success rate	metric	unknown
+
+arxiv:2609.20816v1	Paint-Anything	artifact	proposed
+arxiv:2609.20816v1	Paint-500K	dataset	proposed
+arxiv:2609.20816v1	hex-prompt interface	method	proposed
+arxiv:2609.20816v1	object grounding	method	used
+arxiv:2609.20816v1	perceptual color labeling	method	used
+arxiv:2609.20816v1	editing-pair synthesis	method	used
+arxiv:2609.20816v1	pure-color anchors	method	proposed
+arxiv:2609.20816v1	Any Color Benchmark	dataset	proposed
+arxiv:2609.20816v1	ACBench	dataset	proposed
+arxiv:2609.20816v1	FLUX.2-4B	artifact	used
+arxiv:2609.20816v1	large language models	method	background
+arxiv:2609.20816v1	colorization	task	background
+arxiv:2609.20816v1	CompColor	metric	compared
+
+arxiv:2609.20814v1	neural PDE surrogate	artifact	used
+arxiv:2609.20814v1	CFD	method	used
+arxiv:2609.20814v1	RANS	method	used
+arxiv:2609.20814v1	Spalart-Allmaras	method	used
+arxiv:2609.20814v1	SA	method	used
+arxiv:2609.20814v1	transition modeling	method	used
+arxiv:2609.20814v1	Pretraining	method	used
+arxiv:2609.20814v1	fine-tune	method	used
+
+arxiv:2609.20812v1	OverclaimBench	dataset	proposed
+arxiv:2609.20812v1	coding agents	method	used
+arxiv:2609.20812v1	command-line interfaces	tool	used
+arxiv:2609.20812v1	open-weight models	artifact	used
+arxiv:2609.20812v1	subagents	method	used
+arxiv:2609.20812v1	transcript-based coverage measurements	method	proposed
+
+arxiv:2609.20807v1	score centering	method	proposed
+arxiv:2609.20807v1	Reinforcement learning	method	used
+arxiv:2609.20807v1	large language models	artifact	used
+arxiv:2609.20807v1	importance sampling	method	compared
+arxiv:2609.20807v1	quantization	method	used
+arxiv:2609.20807v1	training-inference mismatch	task	unknown
+
+arxiv:2609.20670v1	MAGNETAR	artifact	proposed
+arxiv:2609.20670v1	2D U-Net	artifact	used
+arxiv:2609.20670v1	neural scorers	artifact	proposed
+arxiv:2609.20670v1	angle-of-arrival	method	used
+arxiv:2609.20670v1	signal-to-noise-ratio	metric	used
+arxiv:2609.20670v1	multipath	method	used
+arxiv:2609.20670v1	radio-frequency	method	used
+arxiv:2609.20670v1	RF	method	used
+arxiv:2609.20670v1	upper-mid-band antennas	artifact	background
+arxiv:2609.20670v1	joint posterior	method	proposed
+
+arxiv:2609.20469v1	Whittle formula	method	background
+arxiv:2609.20469v1	Fisher information matrix	method	used
+arxiv:2609.20469v1	FIM	method	used
+arxiv:2609.20469v1	maximum-likelihood	method	used
+arxiv:2609.20469v1	stationary Gaussian processes	method	background
+arxiv:2609.20469v1	compound Gaussian processes	method	used
+arxiv:2609.20469v1	CGPs	method	used
+arxiv:2609.20469v1	Slepian-Bangs formula	method	used
+arxiv:2609.20469v1	block Toeplitz matrices	method	used
+arxiv:2609.20469v1	density generators	method	used
+arxiv:2609.20469v1	signal processing	field	unknown
+
+arxiv:2609.20452v1	Group testing	method	used
+arxiv:2609.20452v1	sample pooling	method	used
+arxiv:2609.20452v1	dilution	method	used
+arxiv:2609.20452v1	limit of detection	metric	used
+arxiv:2609.20452v1	LOD	metric	used
+arxiv:2609.20452v1	binary quantization	method	used
+arxiv:2609.20452v1	decoding algorithm	method	proposed
+arxiv:2609.20452v1	blind support recovery algorithm	method	proposed
+arxiv:2609.20452v1	combinatorial group testing algorithms	method	compared
+arxiv:2609.20452v1	support recovery	task	unknown
+
+arxiv:2609.20418v1	Group testing	method	used
+arxiv:2609.20418v1	contact graph	artifact	used
+arxiv:2609.20418v1	optimal transport-based pooling design	method	proposed
+arxiv:2609.20418v1	Bernoulli pooling design	method	compared
+arxiv:2609.20418v1	graph total variation regularized decoder	method	proposed
+arxiv:2609.20418v1	piecewise-constant graph signal	method	used
+arxiv:2609.20418v1	graph proximity	method	used
+arxiv:2609.20418v1	pooling design	method	used
+
+arxiv:2609.20383v1	Hollow-core fibres	artifact	proposed
+arxiv:2609.20383v1	HCFs	artifact	proposed
+arxiv:2609.20383v1	HCF	artifact	proposed
+arxiv:2609.20383v1	coherent transmission systems	artifact	used
+arxiv:2609.20383v1	repeaters	artifact	used
+arxiv:2609.20383v1	modulation formats	method	used
+arxiv:2609.20383v1	SMF	artifact	compared
+arxiv:2609.20383v1	transceiver	artifact	used
+arxiv:2609.20383v1	amplifier	artifact	used
+arxiv:2609.20383v1	launch power	metric	used
+arxiv:2609.20383v1	energy per bit	metric	used
+
+arxiv:2609.20767v1	linear spin-wave theory	method	used
+arxiv:2609.20767v1	checkerboard lattice	artifact	used
+arxiv:2609.20767v1	altermagnetic magnons	artifact	used
+arxiv:2609.20767v1	magnon	artifact	used
+arxiv:2609.20767v1	altermagnetism	field	unknown
+arxiv:2609.20767v1	ferromagnetism	field	compared
+arxiv:2609.20767v1	antiferromagnetism	field	compared
+arxiv:2609.20767v1	momentum-space probes	method	compared
+arxiv:2609.20767v1	synthetic quantum systems	artifact	unknown
+
+arxiv:2609.20645v1	Gaussian process coarse-grained potential	method	proposed
+arxiv:2609.20645v1	Gaussian process regression	method	used
+arxiv:2609.20645v1	Morse interactions	method	used
+arxiv:2609.20645v1	sodium montmorillonite	material	used
+arxiv:2609.20645v1	Na-MMT	material	used
+arxiv:2609.20645v1	bentonite	material	used
+arxiv:2609.20645v1	Na-bentonite	material	used
+arxiv:2609.20645v1	coarse-grained models	method	compared
+arxiv:2609.20645v1	tabulated potential	method	proposed
+arxiv:2609.20645v1	potentials of mean force	method	used
+arxiv:2609.20645v1	random-walk tortuosity	metric	used
+
+arxiv:2609.20639v1	Electron-phonon interactions	method	used
+arxiv:2609.20639v1	electron-phonon coupling	method	used
+arxiv:2609.20639v1	phonon renormalization	method	used
+arxiv:2609.20639v1	diagrammatic framework	method	used
+arxiv:2609.20639v1	self-energy diagrams	method	used
+arxiv:2609.20639v1	first principles	method	used
+arxiv:2609.20639v1	LiF	material	used
+arxiv:2609.20639v1	polar semiconductors	material	used
+arxiv:2609.20639v1	lead-halide perovskites	material	unknown
+arxiv:2609.20639v1	Brillouin-zone	method	used
+
+arxiv:2609.20618v1	spinel ferrites	material	used
+arxiv:2609.20618v1	magnonics	field	unknown
+arxiv:2609.20618v1	magnon	artifact	used
+arxiv:2609.20618v1	acoustic phonon	artifact	used
+arxiv:2609.20618v1	magnetic damping	metric	used
+arxiv:2609.20618v1	ferrimagnetic insulating state	material	used
+arxiv:2609.20618v1	Fermi-level density of states	metric	used
+
+arxiv:2609.20526v1	embedded-cluster	method	used
+arxiv:2609.20526v1	embedded cluster	method	used
+arxiv:2609.20526v1	ruthenium dioxide	material	used
+arxiv:2609.20526v1	SA-CASSCF	method	used
+arxiv:2609.20526v1	NEVPT2+SOC	method	used
+arxiv:2609.20526v1	spin-orbit coupling	method	used
+arxiv:2609.20526v1	electrostatic model	method	used
+arxiv:2609.20526v1	ligand model	method	used
+arxiv:2609.20526v1	altermagnetic material	material	unknown
+arxiv:2609.20526v1	thin films	material	compared
+
+arxiv:2609.20686v1	volumetric edge coupling	method	proposed
+arxiv:2609.20686v1	Volumetric Evanescent Edge Coupling	method	proposed
+arxiv:2609.20686v1	edge coupling	method	compared
+arxiv:2609.20686v1	surface couplers	artifact	compared
+arxiv:2609.20686v1	co-packaged optics	artifact	background
+arxiv:2609.20686v1	multicore fiber	artifact	used
+arxiv:2609.20686v1	waveguides	artifact	used
+arxiv:2609.20686v1	total-internal-reflection	method	used
+arxiv:2609.20686v1	TIR	method	used
+arxiv:2609.20686v1	evanescent coupling	method	used
+arxiv:2609.20686v1	KOH-etched silicon cavity	artifact	used
+arxiv:2609.20686v1	buried-oxide ridge	artifact	used
+arxiv:2609.20686v1	Finite-difference time-domain	method	used
+arxiv:2609.20686v1	coupling efficiency	metric	used
+
+arxiv:2609.20357v1	unified wave equation	method	proposed
+arxiv:2609.20357v1	scalar wave equations	method	compared
+arxiv:2609.20357v1	time-variant materials	material	used
+arxiv:2609.20357v1	Green's functions	method	used
+arxiv:2609.20357v1	Green's function retrieval	method	used
+arxiv:2609.20357v1	time-reversed focusing	method	used
+arxiv:2609.20357v1	reciprocity relation	method	used
+
+arxiv:2609.20326v1	Sequential thermal evaporation	method	proposed
+arxiv:2609.20326v1	sTE	method	proposed
+arxiv:2609.20326v1	all-perovskite tandem solar cells	artifact	proposed
+arxiv:2609.20326v1	TSCs	artifact	proposed
+arxiv:2609.20326v1	TSC	artifact	proposed
+arxiv:2609.20326v1	perovskites	material	used
+arxiv:2609.20326v1	formamidinium	material	used
+arxiv:2609.20326v1	FA	material	used
+arxiv:2609.20326v1	formamidinium iodide	material	used
+arxiv:2609.20326v1	power conversion efficiency	metric	used
+arxiv:2609.20326v1	time-sliced ex situ analysis	method	used
+arxiv:2609.20326v1	photovoltaics	field	unknown
+arxiv:2609.20326v1	annealing	method	used
+
+arxiv:2609.20157v1	Energy harvesting	method	used
+arxiv:2609.20157v1	triboelectric nanogenerators	artifact	used
+arxiv:2609.20157v1	TENGs	artifact	used
+arxiv:2609.20157v1	piezoelectric and pyroelectric transducers	artifact	used
+arxiv:2609.20157v1	indoor photovoltaics	artifact	used
+arxiv:2609.20157v1	rectennas	artifact	used
+arxiv:2609.20157v1	electrochemical battery	artifact	compared
+arxiv:2609.20157v1	Internet of Things	field	background
+arxiv:2609.20157v1	IoT	field	background
+arxiv:2609.20157v1	wearable bioelectronics	artifact	background
+arxiv:2609.20157v1	nonlinear piezoelectric oscillators	artifact	used
+arxiv:2609.20157v1	metamaterial architectures	artifact	used
+arxiv:2609.20157v1	power management integrated circuits	artifact	used
+arxiv:2609.20157v1	PMICs	artifact	used
+arxiv:2609.20157v1	micro-supercapacitors	artifact	used
+arxiv:2609.20157v1	thin-film batteries	artifact	used
+arxiv:2609.20157v1	machine-learning-accelerated material discovery	method	used
+arxiv:2609.20157v1	dielectrics	material	used
+
+# --------------------------------------------------------------- patents ----
+patent:US20160175691A1	splitboard boot binding system	artifact	claimed
+patent:US20160175691A1	splitboard boot binding	artifact	claimed
+patent:US20160175691A1	highback	artifact	claimed
+patent:US20160175691A1	highback adjustment system	artifact	claimed
+patent:US20160175691A1	captive strut	artifact	claimed
+patent:US20160175691A1	forward lean adjustor block	artifact	claimed
+patent:US20160175691A1	forward lean adjustor	artifact	claimed
+patent:US20160175691A1	heel cup	artifact	claimed
+patent:US20160175691A1	pivot pin	artifact	claimed
+patent:US20160175691A1	captive jack screw	artifact	claimed
+patent:US20160175691A1	adjustable length strut	artifact	claimed
+
+patent:US20160354338A1	tricyclic compounds	material	claimed
+patent:US20160354338A1	tricyclic compound	material	claimed
+patent:US20160354338A1	Pharmaceutical compositions	material	claimed
+patent:US20160354338A1	methionyl aminopeptidase 2	artifact	claimed
+patent:US20160354338A1	heteroaryl	material	claimed
+patent:US20160354338A1	obesity	task	unknown
+
+patent:US20160157580A1	deodorant dispenser	artifact	claimed
+patent:US20160157580A1	refill cartridge	artifact	claimed
+patent:US20160157580A1	fluid deodorant composition	material	claimed
+patent:US20160157580A1	applicator	artifact	claimed
+patent:US20160157580A1	seal	artifact	claimed
+
+patent:US20170202628A1	medical navigation system	artifact	claimed
+patent:US20170202628A1	surgical positioning system	artifact	claimed
+patent:US20170202628A1	robotic arm	artifact	claimed
+patent:US20170202628A1	end effector	artifact	claimed
+patent:US20170202628A1	input device	artifact	claimed
+patent:US20170202628A1	controller	artifact	claimed
+patent:US20170202628A1	positioning signal	artifact	claimed
+
+patent:US20160122453A1	multi-component catalyst system	artifact	claimed
+patent:US20160122453A1	catalyst system	artifact	claimed
+patent:US20160122453A1	catalyst activator	material	claimed
+patent:US20160122453A1	cocatalyst	material	claimed
+patent:US20160122453A1	Ziegler-Natta catalyst	material	claimed
+patent:US20160122453A1	polymerization catalyst system	artifact	claimed
+patent:US20160122453A1	polymerization process	method	claimed
+patent:US20160122453A1	reactor system	artifact	claimed
+patent:US20160122453A1	Catalyst Activation	method	claimed
+patent:US20160122453A1	catalyst activity	metric	claimed
+
+patent:US20160159652A1	carbon nanotube dispersion liquid	material	claimed
+patent:US20160159652A1	carbon nanotubes	material	claimed
+patent:US20160159652A1	composite material composition	material	claimed
+patent:US20160159652A1	composite material	material	claimed
+patent:US20160159652A1	coarse dispersion liquid	material	claimed
+patent:US20160159652A1	shear force	method	claimed
+patent:US20160159652A1	back pressure	method	claimed
+patent:US20160159652A1	specific surface area	metric	claimed
+
+patent:US20160185716A1	histone deactylase inhibitors	material	claimed
+patent:US20160185716A1	HDACi	material	claimed
+patent:US20160185716A1	HDAC6 inhibitors	material	claimed
+patent:US20160185716A1	histone deactylase 6 inhibitors	material	claimed
+patent:US20160185716A1	heteroaryl	material	claimed
+patent:US20160185716A1	cycloalkyl	material	claimed
+patent:US20160185716A1	heterocycloalkyl	material	claimed
+patent:US20160185716A1	alkoxy	material	claimed
+patent:US20160185716A1	melanoma	task	unknown
+
+patent:US20160185870A1	anti-human CD27 agonistic antibody	artifact	claimed
+patent:US20160185870A1	immune checkpoint inhibitors	material	claimed
+patent:US20160185870A1	immune checkpoint protein inhibitors	material	claimed
+patent:US20160185870A1	immune checkpoint inhibition	method	claimed
+patent:US20160185870A1	cd27 agonists	artifact	claimed
+patent:US20160185870A1	antibody analogue	artifact	claimed
+patent:US20160185870A1	hCD27.15	artifact	claimed
+patent:US20160185870A1	1F5	artifact	claimed
+patent:US20160185870A1	antigen-specific T-lymphocytes	artifact	claimed
+
+patent:US20160253785A1	medical image system	artifact	claimed
+patent:US20160253785A1	Talbot interferometer	artifact	claimed
+patent:US20160253785A1	Talbot-Lau interferometer	artifact	claimed
+patent:US20160253785A1	X-ray equipment	artifact	claimed
+patent:US20160253785A1	X-ray source	artifact	claimed
+patent:US20160253785A1	X-ray detector	artifact	claimed
+patent:US20160253785A1	gratings	artifact	claimed
+patent:US20160253785A1	conversion elements	artifact	claimed
+patent:US20160253785A1	moire fringe image	artifact	claimed
+patent:US20160253785A1	image processing device	artifact	claimed
+patent:US20160253785A1	image unevenness correction unit	artifact	claimed
+patent:US20160253785A1	subject absorption image generation unit	artifact	claimed
+patent:US20160253785A1	slits	artifact	claimed
+
+patent:US20170220069A1	docking apparatus	artifact	claimed
+patent:US20170220069A1	portable electronic device	artifact	claimed
+patent:US20170220069A1	I2C bus	artifact	claimed
+patent:US20170220069A1	I2C messages	artifact	claimed
+patent:US20170220069A1	I2C message	artifact	claimed
+patent:US20170220069A1	I2C-compatible device	artifact	claimed
+patent:US20170220069A1	microcontroller unit	artifact	claimed
+patent:US20170220069A1	byte format	method	claimed
+
+patent:US20160232404A1	information processing system	artifact	claimed
+patent:US20160232404A1	information processing device	artifact	claimed
+patent:US20160232404A1	camera image	artifact	claimed
+patent:US20160232404A1	camera	artifact	claimed
+patent:US20160232404A1	processor	artifact	claimed
+patent:US20160232404A1	storage medium	artifact	claimed
+patent:US20160232404A1	operation detection	task	claimed
+
+patent:US20160328715A1	fraud determination model	artifact	claimed
+patent:US20160328715A1	model attributes	method	claimed
+patent:US20160328715A1	Gating decision system	artifact	claimed
+patent:US20160328715A1	online transaction	method	claimed
+patent:US20160328715A1	online browsing activity	method	claimed
+patent:US20160328715A1	computer-implemented method	method	claimed
+
+patent:US20160205080A1	personal identity credentials	artifact	claimed
+patent:US20160205080A1	personal identification devices	artifact	claimed
+patent:US20160205080A1	personal identification device	artifact	claimed
+patent:US20160205080A1	public key	artifact	claimed
+patent:US20160205080A1	digital certificate	artifact	claimed
+patent:US20160205080A1	biometric data	artifact	claimed
+patent:US20160205080A1	enrollment authority	artifact	claimed
+patent:US20160205080A1	unique identifier	artifact	claimed
+patent:US20160205080A1	data processing system	artifact	claimed
+patent:US20160205080A1	non-transitory machine readable medium	artifact	claimed
+
+patent:US20160173204A1	optical signal recognition	task	claimed
+patent:US20160173204A1	recognition apparatus	artifact	claimed
+patent:US20160173204A1	optical source voltage values	method	claimed
+patent:US20160173204A1	optical source voltage value	method	claimed
+patent:US20160173204A1	comparison threshold	method	claimed
+patent:US20160173204A1	conversion array	artifact	claimed
+patent:US20160173204A1	voltage value array	artifact	claimed
+patent:US20160173204A1	acquisition channel	artifact	claimed
+patent:US20160173204A1	collecting channel	artifact	claimed
+patent:US20160173204A1	synchronization signal	artifact	claimed
+patent:US20160173204A1	frame data	artifact	claimed
+patent:US20160173204A1	optical data	artifact	claimed
+
+patent:US20170222968A1	Cross device messaging	method	claimed
+patent:US20170222968A1	endpoint computing device	artifact	claimed
+patent:US20170222968A1	relay computing device	artifact	claimed
+patent:US20170222968A1	recipient computing device	artifact	claimed
+patent:US20170222968A1	distributed service platform	artifact	claimed
+patent:US20170222968A1	mobile operator network	artifact	claimed
+patent:US20170222968A1	mobile operator message	artifact	claimed
+patent:US20170222968A1	user profile	artifact	claimed
+patent:US20170222968A1	presence document	artifact	claimed
+patent:US20170222968A1	synchronization signal	artifact	claimed
+patent:US20170222968A1	computer-readable media	artifact	claimed
+
+patent:US20160164570A1	DSSS transmitter	artifact	claimed
+patent:US20160164570A1	DSSS receiver	artifact	claimed
+patent:US20160164570A1	DSSS transmission system	artifact	claimed
+patent:US20160164570A1	spread spectrum	method	claimed
+patent:US20160164570A1	narrowband data transmission	method	claimed
+patent:US20160164570A1	chip sequence	method	claimed
+patent:US20160164570A1	chip succession	method	claimed
+patent:US20160164570A1	spread sequence	method	claimed
+patent:US20160164570A1	impulse response	method	claimed
+patent:US20160164570A1	filter	artifact	claimed
+patent:US20160164570A1	transmission channel	artifact	claimed
+patent:US20160164570A1	bit succession	method	claimed
+
+patent:US20160207570A1	Sub frame structure	artifact	claimed
+patent:US20160207570A1	side members	artifact	claimed
+patent:US20160207570A1	rear cross member	artifact	claimed
+patent:US20160207570A1	front cross member	artifact	claimed
+patent:US20160207570A1	upper members	artifact	claimed
+patent:US20160207570A1	floor frame	artifact	claimed
+patent:US20160207570A1	rear side frame	artifact	claimed
+patent:US20160207570A1	arm connection portions	artifact	claimed
+patent:US20160207570A1	arm member	artifact	claimed
+patent:US20160207570A1	vehicle body	artifact	claimed
+
+patent:US20160137015A1	Axle connection	artifact	claimed
+patent:US20160137015A1	axle tube receptacle	artifact	claimed
+patent:US20160137015A1	axle tube	artifact	claimed
+patent:US20160137015A1	longitudinal link	artifact	claimed
+patent:US20160137015A1	support section	artifact	claimed
+patent:US20160137015A1	connecting region	artifact	claimed
+patent:US20160137015A1	tail end	artifact	claimed
+patent:US20160137015A1	utility vehicle	artifact	claimed
+
+patent:US20160199963A1	grinding machine	artifact	claimed
+patent:US20160199963A1	grinding tool	artifact	claimed
+patent:US20160199963A1	dressing tool	artifact	claimed
+patent:US20160199963A1	dresser	artifact	claimed
+patent:US20160199963A1	tool spindle	artifact	claimed
+patent:US20160199963A1	first-cut detection module	artifact	claimed
+patent:US20160199963A1	first-cut detection	method	claimed
+patent:US20160199963A1	compensation calculation	method	claimed
+patent:US20160199963A1	reference position	method	claimed
+
+patent:US20160159144A1	bearing device	artifact	claimed
+patent:US20160159144A1	constant velocity universal joint	artifact	claimed
+patent:US20160159144A1	hub wheel	artifact	claimed
+patent:US20160159144A1	outer joint member	artifact	claimed
+patent:US20160159144A1	stem section	artifact	claimed
+patent:US20160159144A1	shaft hole	artifact	claimed
+patent:US20160159144A1	inner ring	artifact	claimed
+patent:US20160159144A1	double-row rolling elements	artifact	claimed
+patent:US20160159144A1	outer raceway surfaces	artifact	claimed
+patent:US20160159144A1	inner raceway surfaces	artifact	claimed
+patent:US20160159144A1	convex and concave fitting portion	artifact	claimed
