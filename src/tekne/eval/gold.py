@@ -21,9 +21,10 @@ mentions outside the annotated zone, and gets no credit for them either.
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 from ..schema import Document, Genre, Role, SectionKind, Span, TechType
 

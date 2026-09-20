@@ -26,9 +26,8 @@ import re
 from dataclasses import dataclass
 from enum import Enum
 
-from ..schema import Span
+from ..schema import GuardVerdict, Span
 from .base import Guard, GuardContext
-from ..schema import GuardVerdict
 
 
 class GroundingStatus(str, Enum):

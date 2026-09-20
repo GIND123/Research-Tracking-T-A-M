@@ -104,7 +104,7 @@ class EmbeddingScorer:
             vectors = self._model.encode(  # type: ignore[union-attr]
                 missing, normalize_embeddings=True, show_progress_bar=False
             )
-            for text, vector in zip(missing, vectors):
+            for text, vector in zip(missing, vectors, strict=True):
                 self._cache[text] = vector
         import numpy as np
 

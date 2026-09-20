@@ -28,9 +28,10 @@ need corpus-level knowledge (the temporal one).
 from __future__ import annotations
 
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 from ..calib.selective import ConfidenceInputs, ConfidenceModel
 from ..classify.roler import RoleClassifier
@@ -713,13 +714,11 @@ class Pipeline:
                 return None
             entry_id = entry.entry_id
             label = entry.label
-            depth = entry.depth
             kb = entry.kb
             attested = entry.attested_from
         else:
             entry = self.gazetteer.entries.get(entry_id)
             label = cand.notes.get("kb_label", entry.label if entry else entry_id)
-            depth = entry.depth if entry else 3
             kb = cand.notes.get("kb", entry.kb if entry else "cso")
             attested = entry.attested_from if entry else None
         return KBLink(

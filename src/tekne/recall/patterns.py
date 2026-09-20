@@ -88,7 +88,6 @@ class PatternRecaller(Recaller):
         self._ortho = orthographic_patterns()
 
     def propose(self, ctx: RecallContext) -> list[Candidate]:
-        doc = ctx.document
         out: list[Candidate] = []
         if ctx.analysis.chunks:
             out.extend(self._from_chunks(ctx))
@@ -187,7 +186,7 @@ class PatternRecaller(Recaller):
         if noun_ends:
             # Alternative right boundaries: any noun-final token in the last few
             # positions of the chunk, nearest the head first.
-            for tok_start, tok_end in reversed(token_offsets[idx:-1][-_MAX_RIGHT_ALTERNATIVES:]):
+            for _tok_start, tok_end in reversed(token_offsets[idx:-1][-_MAX_RIGHT_ALTERNATIVES:]):
                 if tok_end in noun_ends and tok_end < end:
                     ends.append(tok_end)
         for right in ends:

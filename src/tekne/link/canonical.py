@@ -28,8 +28,9 @@ and reconciled with an ontology later.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 from ..lexicons import lemma_key
 from ..schema import TechMention
@@ -106,7 +107,7 @@ class Canonicalizer:
                 by_kb[next(iter(kb_ids))].append(key)
 
         merged: dict[str, str] = {}
-        for kb_id, keys in by_kb.items():
+        for _kb_id, keys in by_kb.items():
             if len(keys) < 2:
                 continue
             anchor = min(keys, key=lambda k: (-len(groups[k]), k))

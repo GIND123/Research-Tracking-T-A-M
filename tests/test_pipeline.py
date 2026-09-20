@@ -15,16 +15,16 @@ from tekne.calib.selective import (
 from tekne.config import Config
 from tekne.eval.gold import GoldDocument, GoldMention, read_gold, validate_gold
 from tekne.eval.metrics import align, evaluate
-from tekne.guard.checks import ConsensusGuard, EvidenceGuard, TemporalGuard
 from tekne.guard.base import GuardContext, GuardStack
+from tekne.guard.checks import ConsensusGuard, EvidenceGuard, TemporalGuard
 from tekne.guard.grounding import SpanGroundingGuard
 from tekne.guard.negative import NegativeLexiconGuard
 from tekne.lexicons import lemma_key
 from tekne.link.canonical import Canonicalizer
 from tekne.schema import (
     Candidate,
-    Document,
     DocMetadata,
+    Document,
     Evidence,
     Genre,
     KBLink,

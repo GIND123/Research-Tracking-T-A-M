@@ -16,15 +16,15 @@ import json
 
 import pytest
 
+from tekne.agents.budget import Budget
 from tekne.config import Config
 from tekne.guard.grounding import GroundingStatus, ground
 from tekne.guard.injection import scan, wrap_untrusted
 from tekne.llm.backend import ScriptedBackend
-from tekne.recall.llm import LLMRecaller
-from tekne.recall.base import RecallContext
-from tekne.agents.budget import Budget
 from tekne.nlp import analyse
-from tekne.schema import Document, DocMetadata, Genre
+from tekne.recall.base import RecallContext
+from tekne.recall.llm import LLMRecaller
+from tekne.schema import DocMetadata, Document, Genre
 
 DOC_TEXT = (
     "Sparse Mixture-of-Experts Routing for Machine Translation "
@@ -44,7 +44,6 @@ def make_doc(text: str = DOC_TEXT) -> Document:
 
 
 def run_recaller(doc: Document, backend: ScriptedBackend) -> list:
-    config = Config()
     ctx = RecallContext(
         document=doc,
         analysis=analyse(doc),
@@ -126,14 +125,12 @@ def test_hallucination_rate_is_reported_not_hidden():
         )
     )
     doc = make_doc()
-    config = Config()
     ctx = RecallContext(document=doc, analysis=analyse(doc), llm=backend, budget=Budget())
     recaller = LLMRecaller(model="test-model", max_windows=1)
     recaller.propose(ctx)
 
     assert recaller.stats["proposed"] == 3
     assert recaller.stats["ungrounded"] == 2
-    del config
 
 
 # --- evidence --------------------------------------------------------------

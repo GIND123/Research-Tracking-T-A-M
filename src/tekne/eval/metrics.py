@@ -20,8 +20,9 @@ rather than as a comparison between systems -- a non-zero value is a bug report.
 from __future__ import annotations
 
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any, Sequence
+from typing import Any
 
 from ..schema import Document, Role, TechMention, TechType
 from .gold import GoldDocument, GoldMention

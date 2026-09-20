@@ -19,38 +19,45 @@ from dataclasses import dataclass
 # Ligatures and typographic characters that survive PDF extraction and break
 # naive string matching against a gazetteer.
 _CHAR_MAP = {
-    "ﬀ": "ff",
-    "ﬁ": "fi",
-    "ﬂ": "fl",
-    "ﬃ": "ffi",
-    "ﬄ": "ffl",
-    "ﬅ": "st",
-    "ﬆ": "st",
-    "‐": "-",
-    "‑": "-",
-    "‒": "-",
-    "–": "-",
-    "—": "-",
-    "―": "-",
-    "−": "-",
-    "‘": "'",
-    "’": "'",
-    "‚": "'",
-    "‛": "'",
-    "“": '"',
-    "”": '"',
-    "„": '"',
-    " ": " ",
-    " ": " ",
-    " ": " ",
-    " ": " ",
-    " ": " ",
-    " ": " ",
-    "​": "",
-    "‌": "",
-    "‍": "",
-    "﻿": "",
-    "­": "",  # soft hyphen
+    # Ligatures. Written as escapes rather than literals because several of the
+    # characters below are invisible in an editor, and a char map you cannot
+    # read is a char map nobody will ever correct.
+    "\ufb00": "ff",
+    "\ufb01": "fi",
+    "\ufb02": "fl",
+    "\ufb03": "ffi",
+    "\ufb04": "ffl",
+    "\ufb05": "st",
+    "\ufb06": "st",
+    # Dashes and minus signs, all folded to ASCII hyphen.
+    "\u2010": "-",
+    "\u2011": "-",
+    "\u2012": "-",
+    "\u2013": "-",
+    "\u2014": "-",
+    "\u2015": "-",
+    "\u2212": "-",
+    # Quotation marks.
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201a": "'",
+    "\u201b": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+    "\u201e": '"',
+    # Spaces that are not U+0020.
+    "\u00a0": " ",
+    "\u2002": " ",
+    "\u2003": " ",
+    "\u2009": " ",
+    "\u200a": " ",
+    "\u202f": " ",
+    # Zero-width and formatting characters, dropped entirely.
+    "\u200b": "",
+    "\u200c": "",
+    "\u200d": "",
+    "\ufeff": "",
+    "\u00ad": "",  # soft hyphen
 }
 
 # "convolu-\ntional" -> "convolutional".  Only fires when the fragment either
@@ -127,7 +134,7 @@ def normalize(raw: str, *, mask_citations: bool = True) -> NormalizedText:
     out_chars: list[str] = []
     out_index: list[int] = []
     prev_ws = False
-    for ch, src in zip(stage2, index2):
+    for ch, src in zip(stage2, index2, strict=True):
         if ch.isspace():
             if prev_ws:
                 continue

@@ -18,8 +18,9 @@ estimator.
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 from ..lexicons import (
     head_to_type,
@@ -293,7 +294,7 @@ class TypeClassifier:
             tech_type = TechType(class_name)
             coefs = model.coef_[idx] if model.coef_.ndim > 1 else model.coef_[0]
             table = dict.fromkeys(FEATURES, 0.0)
-            for name, value in zip(design, coefs):
+            for name, value in zip(design, coefs, strict=False):
                 if name in table:
                     table[name] = float(value)
             table["head_type_match"] = float(coefs[design.index("head_type_match_self")])

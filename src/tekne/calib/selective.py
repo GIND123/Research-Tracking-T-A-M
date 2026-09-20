@@ -17,8 +17,9 @@ actually distinguishes the configurations in the evaluation.
 from __future__ import annotations
 
 import math
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any, Sequence
+from typing import Any
 
 
 @dataclass
@@ -121,7 +122,7 @@ class ConfidenceModel:
         model = LogisticRegression(C=C, max_iter=2000)
         model.fit(X, y)
         self.weights = {"bias": float(model.intercept_[0])}
-        self.weights.update({n: float(w) for n, w in zip(names, model.coef_[0])})
+        self.weights.update({n: float(w) for n, w in zip(names, model.coef_[0], strict=True)})
         return {"fitted": True, "n": len(examples), "weights": dict(self.weights)}
 
 
@@ -218,14 +219,14 @@ def expected_calibration_error(
         return 0.0
     buckets: list[list[int]] = [[] for _ in range(bins)]
     bucket_scores: list[list[float]] = [[] for _ in range(bins)]
-    for score, label in zip(scores, labels):
+    for score, label in zip(scores, labels, strict=True):
         idx = min(int(score * bins), bins - 1)
         buckets[idx].append(label)
         bucket_scores[idx].append(score)
 
     total = len(scores)
     ece = 0.0
-    for labels_in_bin, scores_in_bin in zip(buckets, bucket_scores):
+    for labels_in_bin, scores_in_bin in zip(buckets, bucket_scores, strict=True):
         if not labels_in_bin:
             continue
         accuracy = sum(labels_in_bin) / len(labels_in_bin)

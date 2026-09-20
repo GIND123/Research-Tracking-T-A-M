@@ -17,9 +17,10 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 from ..agents.orchestrator import Pipeline
 from ..calib.selective import (

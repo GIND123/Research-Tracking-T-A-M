@@ -51,4 +51,9 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-ignore = ["E501"]
+ignore = [
+    "E501",
+    # Typer declares CLI options as call-valued defaults; that is the documented
+    # idiom for the library, not a mutable-default bug.
+    "B008",
+]

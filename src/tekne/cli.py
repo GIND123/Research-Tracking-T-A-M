@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.console import Console
@@ -19,7 +18,7 @@ from rich.table import Table
 
 from .config import Config
 from .ingest.sources import read_jsonl
-from .schema import ExtractionResult, Role, TechType
+from .schema import ExtractionResult
 
 app = typer.Typer(add_completion=False, help=__doc__)
 console = Console()
@@ -29,7 +28,7 @@ console = Console()
 def extract(
     corpus: list[Path] = typer.Argument(..., help="JSONL document files"),
     out: Path = typer.Option(Path("runs/extract"), help="output directory"),
-    config: Optional[Path] = typer.Option(None, help="YAML config"),
+    config: Path | None = typer.Option(None, help="YAML config"),
     limit: int = typer.Option(0, help="process only the first N documents"),
     no_llm: bool = typer.Option(False, "--no-llm", help="force the offline tier"),
     trace: bool = typer.Option(False, help="write the full per-document trace"),
@@ -69,7 +68,7 @@ def extract(
 def inspect(
     doc_id: str = typer.Argument(..., help="document id"),
     corpus: list[Path] = typer.Option(..., help="JSONL document files"),
-    config: Optional[Path] = typer.Option(None),
+    config: Path | None = typer.Option(None),
     no_llm: bool = typer.Option(False, "--no-llm"),
     show_rejected: bool = typer.Option(False, help="also list rejected candidates"),
 ) -> None:
@@ -121,7 +120,7 @@ def inspect(
 @app.command()
 def plan(
     corpus: list[Path] = typer.Argument(...),
-    config: Optional[Path] = typer.Option(None),
+    config: Path | None = typer.Option(None),
     exact_tokens: bool = typer.Option(False, help="count tokens via the API instead of estimating"),
 ) -> None:
     """Project what a run would cost, without issuing a single model call."""
@@ -213,7 +212,7 @@ def evaluate(
     corpus: list[Path] = typer.Option(
         [Path("data/raw/papers_eval.jsonl"), Path("data/raw/patents_eval.jsonl")]
     ),
-    config: Optional[Path] = typer.Option(None),
+    config: Path | None = typer.Option(None),
     suite: str = typer.Option("all", help="baselines | ablations | all"),
     out: Path = typer.Option(Path("runs/eval")),
     no_llm: bool = typer.Option(False, "--no-llm"),
@@ -239,7 +238,7 @@ def evaluate(
 @app.command()
 def guard_report(
     corpus: list[Path] = typer.Argument(...),
-    config: Optional[Path] = typer.Option(None),
+    config: Path | None = typer.Option(None),
     limit: int = typer.Option(0),
 ) -> None:
     """Summarise what the guard stack removed and why, across a corpus."""
@@ -278,7 +277,7 @@ def guard_report(
 # --- helpers ---------------------------------------------------------------
 
 
-def _resolve_config(path: Optional[Path], no_llm: bool) -> Config:
+def _resolve_config(path: Path | None, no_llm: bool) -> Config:
     cfg = Config.load(path)
     if no_llm or not cfg.has_api_key():
         cfg = cfg.with_overrides(

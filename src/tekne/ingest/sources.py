@@ -30,11 +30,12 @@ import hashlib
 import json
 import re
 import time
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator, Sequence
+from typing import Any
 
-from ..schema import Document, DocMetadata, Genre
+from ..schema import DocMetadata, Document, Genre
 from .normalize import normalize
 from .segment import segment_paper, segment_patent
 

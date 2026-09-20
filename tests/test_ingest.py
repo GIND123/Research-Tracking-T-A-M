@@ -113,7 +113,7 @@ def test_sections_do_not_overlap():
         segment_patent(text, title_len=1, claims_range=(2, len(text))),
         key=lambda s: s.span.start,
     )
-    for earlier, later in zip(sections, sections[1:]):
+    for earlier, later in zip(sections, sections[1:], strict=False):
         assert earlier.span.end <= later.span.start + 1
 
 
