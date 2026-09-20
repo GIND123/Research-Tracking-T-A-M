@@ -26,7 +26,9 @@ rather than unlikely:
   threshold — not by making any single stage conservative.
 - Everything the pipeline declined to emit is kept, with the reason.
 
-A companion write-up is in [`report/main.tex`](report/main.tex).
+A companion write-up is in [`report/main.tex`](report/main.tex), and
+[`docs/decisions.md`](docs/decisions.md) records the design calls — including
+five that were wrong and what the measurements were that reversed them.
 
 ## Quick start
 
