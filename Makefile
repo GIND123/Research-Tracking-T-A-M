@@ -43,9 +43,15 @@ ablations: ## ablations only
 demo: ## extract one document and print every decision
 	$(PY) -m tekne.cli inspect arxiv:2609.20800v1 --corpus data/raw/papers_eval.jsonl --show-rejected
 
+# Includes the time-sliced corpus when `make trend-data` has produced one; the
+# evaluation corpora alone give only two time slices.
+TREND_CORPUS = $(wildcard data/raw/papers_trend.jsonl)
+TRACK_CORPORA = $(CORPORA) $(TREND_CORPUS)
+
 trends: ## build technology trend series from an extraction run
-	$(PY) -m tekne.cli extract $(CORPORA) --out runs/extract
-	$(PY) -m tekne.cli trends runs/extract/mentions.jsonl --corpus data/raw/papers_eval.jsonl --corpus data/raw/patents_eval.jsonl
+	$(PY) -m tekne.cli extract $(TRACK_CORPORA) --out runs/extract
+	$(PY) -m tekne.cli trends runs/extract/mentions.jsonl \
+	    $(foreach c,$(TRACK_CORPORA),--corpus $(c))
 
 plan: ## project API cost without issuing a call
 	$(PY) -m tekne.cli plan $(CORPORA)
@@ -56,7 +62,11 @@ test: ## run the test suite
 lint:
 	$(PY) -m ruff check src tests scripts
 
-paper: ## build report/main.pdf
+tables: ## regenerate the report's tables and figures from runs/eval
+	$(PY) scripts/make_tables.py
+	$(PY) scripts/make_figures.py
+
+paper: tables ## build report/main.pdf
 	$(MAKE) -C report
 
 clean:

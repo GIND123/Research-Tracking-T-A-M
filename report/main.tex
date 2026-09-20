@@ -36,8 +36,10 @@ over-eager recallers and filtered by a guard stack, an independent verifier
 cascade and a single calibrated abstention threshold. On a \NumGold-mention gold
 set spanning \NumPapers{} arXiv abstracts and \NumPatents{} USPTO publications
 across nine technology areas, the full system reaches \RFullPF{} partial F$_1$
-at a measured hallucination rate of \RFullHalluc, and every component we remove
-degrades either precision or the risk--coverage area. We also report a negative
+at a measured hallucination rate of \RFullHalluc. An ablation over six components
+finds only one of them unambiguously load-bearing --- the verifier --- while two
+others buy strict precision at a measurable cost in overlap recall and in ranking
+quality, which we report rather than smooth over. We also report a negative
 result: span grounding bounds but does not close indirect prompt injection,
 because an adversary can write their phantom technology into their own patent.
 \end{abstract}
@@ -295,7 +297,7 @@ ontology.
 \label{sec:results}
 
 \begin{table}[t]
-\centering\small
+\centering\small\setlength{\tabcolsep}{3.5pt}
 \input{tables/baselines}
 \caption{Single-recaller baselines. Every row is a configuration of the same
 code, with the guard stack reduced to grounding.}
@@ -303,7 +305,7 @@ code, with the guard stack reduced to grounding.}
 \end{table}
 
 \begin{table}[t]
-\centering\small
+\centering\small\setlength{\tabcolsep}{3.5pt}
 \input{tables/ablations}
 \caption{Ablations: one component removed at a time from the full offline
 configuration.}
@@ -316,6 +318,15 @@ configuration.}
 \caption{Per-genre performance of the full system.}
 \label{tab:genre}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/risk_coverage}
+\caption{Risk against coverage. Configurations that look close on F$_1$ separate
+here: what distinguishes them is not how much they find but whether their errors
+sit in the low-confidence tail. Lower is better; AURC in the legend.}
+\label{fig:riskcoverage}
+\end{figure}
 
 \paragraph{Baselines.} Table~\ref{tab:baselines} shows the characteristic profile
 of each component. The gazetteer is precise and nearly blind (\RGazetteerR{}
@@ -331,18 +342,37 @@ half its recall.
 F$_1$ and \RFullType{} type accuracy at \RFullAurc{} AURC. The hallucination rate
 is \RFullHalluc{} in every configuration, as the design requires.
 
-\paragraph{What each component buys.} Removing the verifier is the single
-largest change: recall rises to \RNoVerifierR{} while precision falls to
-\RNoVerifierP{} and AURC degrades from \RFullAurc{} to \RNoVerifierAurc. That is
-the intended behaviour of a verifier --- it does not find more, it decides what to
-keep, and its contribution shows up in the ranking rather than in F$_1$. Removing
-the negative lexicon costs precision (\RFullP{} to \RNoNegativeP) at negligible
-recall gain, which is the signature of a filter that removes exactly what it
-should. Removing the knowledge base and the abbreviation miner costs recall and
-type accuracy together, since both supply the consensus evidence the confidence
-model leans on. Consensus and abstention each move the numbers by less than a
-point on F$_1$ but both improve AURC, consistent with their role: they change
-what the system is confident about, not what it finds.
+\paragraph{What each component buys, and what it costs.} The ablations do not all
+point the same way, and the ones that do not are the informative ones.
+
+Removing the \emph{verifier} is the only unambiguous degradation, and it is
+large: precision falls from \RFullP{} to \RNoVerifierP, partial F$_1$ from
+\RFullPF{} to \RNoVerifierPF, type accuracy from \RFullType{} to
+\RNoVerifierType, and AURC from \RFullAurc{} to \RNoVerifierAurc. Recall rises,
+to \RNoVerifierR. That is exactly what a verifier is for --- it does not find
+more, it decides what to keep --- and it is the component we would keep if we
+could keep only one.
+
+The \emph{negative lexicon} and the \emph{knowledge base plus abbreviation
+miner} both trade in the opposite direction. Dropping the negative lexicon costs
+strict precision (\RFullP{} to \RNoNegativeP) and strict F$_1$ (\RFullF{} to
+\RNoNegativeF) while slightly \emph{improving} partial F$_1$
+(\RNoNegativePF) and AURC (\RNoNegativeAurc). Dropping the knowledge base and
+abbreviation miner behaves similarly. The explanation is the same in both cases:
+these components remove candidates that overlap a gold span without matching it
+exactly, so they buy exact-boundary precision by giving up partial credit, and
+the items they remove were already ranked low enough that removing them does not
+improve the ranking. For a tracking corpus operated at a precision target this
+is the right trade, but it is a trade and not a free win.
+
+\emph{Consensus} and \emph{abstention} move strict F$_1$ by less than a point and
+improve AURC (\RNoConsensusAurc{} and \RNoAbstentionAurc{} respectively, against
+\RFullAurc{} for the full system), which is consistent with their role: they
+change what the system is confident about rather than what it finds.
+Figure~\ref{fig:riskcoverage} shows why this is worth measuring separately:
+configurations within a point of each other on F$_1$ are visibly different in
+where their errors sit, and it is that difference, not F$_1$, that determines how
+much of the output a downstream corpus can take unreviewed.
 
 \paragraph{Genre.} Table~\ref{tab:genre} shows the gap the task description
 predicts. Patents are the harder genre despite contributing more gold mentions
@@ -386,11 +416,21 @@ Aggregating mentions by canonical identifier and document year gives per-
 technology series; ranking by recent growth in normalised document frequency
 gives an emergence list; and comparing the early and late role distribution of a
 technology gives an adoption signature, the shift from \textsc{proposed} to
-\textsc{used} and \textsc{compared}. We report this as a demonstration that the
-output supports the analysis rather than as a contribution to trend detection
-\cite{small2014emerging,erdi2013prediction}; document frequency rather than
-mention frequency is used throughout, since a patent that repeats ``grinding
-tool'' forty times is one document's worth of evidence.
+\textsc{used} and \textsc{compared}. Document frequency rather than mention
+frequency is used throughout, since a patent that repeats ``grinding tool''
+forty times is one document's worth of evidence that grinding tools matter.
+
+We report this as a demonstration that the extraction output supports the
+analysis, not as a contribution to trend detection
+\cite{small2014emerging,erdi2013prediction}, and the demonstration is weaker than
+we intended: the time-sliced corpus this section needs is assembled from the
+arXiv API a year at a time, and the endpoint rate-limited us to two usable time
+slices. The aggregation logic is therefore exercised by unit tests on synthetic
+series --- document-frequency counting, corpus-size normalisation, emergence
+ranking and the adoption signature --- and on the real corpus only across two
+points. Nothing in this section should be read as an empirical claim about
+technology trends; what it establishes is that canonical identifiers, roles and
+dates carry through the pipeline in a form the analysis can consume.
 
 \section{Limitations}
 
@@ -451,7 +491,6 @@ the configuration that produced it, and model calls are cached content-addressed
 so a run replays exactly. The tables in this paper are generated from the results
 file and the numbers quoted in prose are LaTeX macros from the same source.
 
-\bibliographystyle{acl_natbib}
 \bibliography{refs}
 
 \end{document}

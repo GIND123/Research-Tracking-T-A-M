@@ -27,6 +27,7 @@ need corpus-level knowledge (the temporal one).
 
 from __future__ import annotations
 
+import bisect
 import time
 from collections.abc import Sequence
 from dataclasses import dataclass, field
@@ -100,6 +101,43 @@ SECTION_WEIGHT: dict[SectionKind, float] = {
     SectionKind.CONCLUSION: 0.5,
     SectionKind.OTHER: 0.3,
 }
+
+
+class _IntervalIndex:
+    """Overlap queries over accepted spans, keeping insertion-order semantics.
+
+    The decoder needs the *first accepted* overlapping span -- first meaning
+    highest confidence, since acceptance proceeds in descending confidence --
+    not merely some overlapping span, so the query returns the minimum insertion
+    index among the matches rather than the first one it happens to find.
+    """
+
+    __slots__ = ("_starts", "_entries", "_max_width")
+
+    def __init__(self) -> None:
+        self._starts: list[int] = []
+        self._entries: list[tuple[int, int, int]] = []  # (start, end, insertion index)
+        self._max_width = 0
+
+    def add(self, span: Span, order: int) -> None:
+        position = bisect.bisect_left(self._starts, span.start)
+        self._starts.insert(position, span.start)
+        self._entries.insert(position, (span.start, span.end, order))
+        self._max_width = max(self._max_width, span.end - span.start)
+
+    def first_overlapping(self, span: Span, kept: list[TechMention]) -> TechMention | None:
+        if not self._entries:
+            return None
+        # Any overlapping interval must start before `span.end` and, since no
+        # accepted interval is wider than `_max_width`, no earlier than
+        # `span.start - _max_width`.
+        hi = bisect.bisect_left(self._starts, span.end)
+        lo = bisect.bisect_left(self._starts, span.start - self._max_width)
+        best: int | None = None
+        for start, end, order in self._entries[lo:hi]:
+            if start < span.end and span.start < end and (best is None or order < best):
+                best = order
+        return kept[best] if best is not None else None
 
 
 @dataclass
@@ -435,14 +473,18 @@ class Pipeline:
         kept: list[TechMention] = []
         dropped = 0
         nested = 0
+        # Interval index over what has been kept, so the overlap test is a binary
+        # search rather than a scan. The naive version is quadratic in the number
+        # of surviving mentions, which is invisible at the default threshold and
+        # dominates the run once abstention is disabled (the ablation emits every
+        # candidate, ~2k per patent).
+        index = _IntervalIndex()
 
         for mention in sorted(board.mentions, key=lambda m: (-m.confidence, m.span.start)):
-            container = next(
-                (k for k in kept if k.span.overlaps(mention.span)),
-                None,
-            )
+            container = index.first_overlapping(mention.span, kept)
             if container is None:
                 kept.append(mention)
+                index.add(mention.span, len(kept) - 1)
                 continue
             distinctive = set(mention.provenance.proposers) & DISTINCTIVE_PROPOSERS
             if (
@@ -451,6 +493,7 @@ class Pipeline:
                 and not distinctive <= set(container.provenance.proposers)
             ):
                 kept.append(mention)
+                index.add(mention.span, len(kept) - 1)
                 nested += 1
                 continue
             dropped += 1

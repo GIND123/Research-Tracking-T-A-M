@@ -118,7 +118,11 @@ def fetch_arxiv(
             if owned:
                 conn.close()
         if attempt < retries - 1:
-            time.sleep(min(delay * (2**attempt), 60.0))
+            # Back off hard. The endpoint throttles per IP over a window, so a
+            # burst of quick retries makes the next query more likely to fail,
+            # not less -- an earlier version retried six times in under a minute
+            # and starved a whole corpus fetch.
+            time.sleep(min(60.0, max(delay, 15.0) * (2**attempt)))
 
     raise ArxivThrottled(f"arXiv returned {last_status} for {url} after {retries} attempts")
 

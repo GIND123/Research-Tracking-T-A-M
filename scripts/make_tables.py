@@ -28,16 +28,16 @@ ROWS_ABLATION = ["full", "-negative", "-consensus", "-verifier", "-abstention", 
 
 PRETTY = {
     "gazetteer": "CSO gazetteer",
-    "chunker-gated": "Chunker (lexicon-gated)",
+    "chunker-gated": "Chunker (gated)",
     "chunker": "Chunker (open)",
     "cvalue": "C-value/NC-value",
-    "union": "Union of recallers",
+    "union": "Union, no guards",
     "full": r"\textsc{Tekne}",
-    "-negative": r"\quad $-$ negative lexicon",
-    "-consensus": r"\quad $-$ consensus",
-    "-verifier": r"\quad $-$ verifier",
-    "-abstention": r"\quad $-$ abstention",
-    "-structure": r"\quad $-$ KB \& abbreviations",
+    "-negative": r"\;$-$ negative lexicon",
+    "-consensus": r"\;$-$ consensus",
+    "-verifier": r"\;$-$ verifier",
+    "-abstention": r"\;$-$ abstention",
+    "-structure": r"\;$-$ KB, abbrev.",
 }
 
 
@@ -124,10 +124,16 @@ def macros(conditions: dict[str, dict], extra: dict[str, str]) -> str:
 
 
 def _macro_name(key: str) -> str:
-    """LaTeX macro names must be letters only."""
-    cleaned = key.replace("-", "No").replace("_", "")
-    cleaned = re.sub(r"[^A-Za-z]", "", cleaned)
-    return "R" + cleaned[0].upper() + cleaned[1:]
+    """LaTeX macro names must be letters only, so build CamelCase ones.
+
+    ``full`` -> ``RFull``; ``-verifier`` -> ``RNoVerifier``;
+    ``chunker-gated`` -> ``RChunkerGated``.
+    """
+    ablation = key.startswith("-")
+    parts = [p for p in re.split(r"[-_\s]+", key) if p]
+    camel = "".join(p[0].upper() + p[1:] for p in parts)
+    camel = re.sub(r"[^A-Za-z]", "", camel)
+    return "R" + ("No" if ablation else "") + camel
 
 
 def corpus_numbers(gold_path: Path) -> dict[str, str]:
