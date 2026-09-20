@@ -246,7 +246,14 @@ def role_transitions(table: TrendTable, *, min_docs: int = 6) -> list[dict[str, 
         early_prop = _fraction(early, Role.PROPOSED.value)
         late_used = _fraction(late, Role.USED.value)
         late_compared = _fraction(late, Role.COMPARED.value)
-        shift = (late_used + late_compared) - early_prop
+        # The shift is the *increase* in adoption-like roles between the halves,
+        # not the late adoption share minus the early proposed share. The latter
+        # reads zero for a clean proposed-to-used transition, which is the
+        # textbook case this is meant to detect.
+        early_adoption = _fraction(early, Role.USED.value) + _fraction(
+            early, Role.COMPARED.value
+        )
+        shift = (late_used + late_compared) - early_adoption
         out.append(
             {
                 "canonical_id": series.canonical_id,
