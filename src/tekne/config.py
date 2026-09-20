@@ -106,7 +106,10 @@ class GuardConfig:
 @dataclass
 class VerifyConfig:
     use_embedding: bool = True
-    use_llm: bool = False
+    # Defaults here mirror configs/default.yaml so that Config() and the shipped
+    # YAML describe the same pipeline. Nothing is spent without a key: the
+    # orchestrator falls back to NullBackend and records that it did.
+    use_llm: bool = True
     batch_size: int = 20
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     #: Candidates with |margin| above this are decided without a model call.

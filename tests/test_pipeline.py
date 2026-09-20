@@ -328,3 +328,32 @@ def test_gold_file_matches_the_corpus():
 
     problems = validate_gold(read_gold(gold_path), documents)
     assert problems == [], problems[:5]
+
+
+def test_shipped_default_yaml_matches_the_dataclass_defaults():
+    """`Config()` and configs/default.yaml must describe the same pipeline.
+
+    They drifted once (the LLM verifier was on in the YAML and off in the code),
+    which made `tekne plan` price a configuration nobody would ever run.
+    """
+    from pathlib import Path
+
+    path = Path("configs/default.yaml")
+    if not path.is_file():
+        pytest.skip("configs/default.yaml not present")
+
+    code = Config().to_dict()
+    shipped = Config.load(path).to_dict()
+    differences = {
+        f"{section}.{key}": (code[section][key], shipped[section][key])
+        for section in code
+        if isinstance(code[section], dict)
+        for key in code[section]
+        # YAML cannot express a tuple; compare sequences by content.
+        if list(_seq(code[section][key])) != list(_seq(shipped[section][key]))
+    }
+    assert differences == {}, differences
+
+
+def _seq(value):
+    return value if isinstance(value, (list, tuple)) else [value]

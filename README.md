@@ -114,15 +114,23 @@ section priority rather than by reading the whole specification.
 
 | Source | Use | Access |
 |--------|-----|--------|
-| arXiv API | paper abstracts, 6 categories | public, no key |
+| arXiv API | paper abstracts, 5 category queries | public, no key (rate limited) |
 | Google Patents | patent full text | public, no key |
 | HUPD metadata ([patentdataset.org](https://patentdataset.org/)) | patent sampling frame, CPC labels, filing dates | public |
 | CSO 3.4 | gazetteer and hierarchy | public |
 
-The gold set is 908 mentions over 44 documents, annotated by one person under
+The gold set is 895 mentions over 44 documents (24 papers, 20 patents),
+annotated by one person under
 [`docs/annotation-guidelines.md`](docs/annotation-guidelines.md). Its limitations
 are listed at the end of that file and should be read before quoting any number
 from it.
+
+`make trend-data` builds the larger time-sliced corpus the tracking demo wants,
+one year per request. The arXiv endpoint throttles aggressively — it answers 406
+rather than 429, in bursts, and a retry storm makes the next query *more* likely
+to fail — so expect this to take tens of minutes and to need re-running. Our own
+run got one year before being blocked, which is why the tracking results in the
+report are reported as a mechanism demonstration rather than as a trend finding.
 
 ## Tests
 
