@@ -395,14 +395,22 @@ component noun phrases that are structurally indistinguishable from technology
 mentions without domain knowledge --- ``a first position'', ``the both-side end
 portions'', ``said support section''.
 
-\paragraph{Error analysis.} Stage-wise accounting on a 20-document sample
-attributes the remaining recall loss as follows: candidates cover 80\% of gold
-spans exactly and a further 17\% with overlap, so only 2\% is lost at recall.
-Of the gold spans present as candidates, the largest single loss is boundary
-disagreement at decoding --- the decoder selects an overlapping span the
-annotator did not choose --- followed by type errors, predominantly
-\textsc{method}$\rightarrow$\textsc{not\_tech} for heads the lexicon does not
-list. This is why the strict/partial gap is large and why we report both.
+\paragraph{Error analysis.} Attributing each scored gold mention to exactly one
+outcome (\texttt{scripts/error\_analysis.py}) gives a clearer picture than the
+F$_1$ columns. Of 819 scored gold mentions, 39.2\% are emitted correctly and
+2.6\% are found but typed outside the scored set. Of the rest, only 8.7\% were
+never proposed by any recaller --- genuine recall failure is the smallest
+category. The two largest losses are recoverable in different senses: 25.6\% are
+found and then withheld by the confidence threshold, which is the
+risk--coverage trade being made deliberately and is recovered by moving one
+knob; and 13.7\% are proposed but lose the decoder's overlap resolution to a
+neighbouring span, which partial F$_1$ still credits and which reflects
+annotator-level boundary disagreement rather than failure to find the
+technology. The remaining 10.3\% are rejected by a guard, four-fifths of them
+because the type classifier called them \textsc{not\_tech}; the type confusions
+that cost most are \textsc{method}$\rightarrow$\textsc{task} and
+\textsc{artifact}$\rightarrow$\textsc{task}, which is the boundary the annotation
+guidelines flag as the hardest.
 
 \section{Prompt injection: a negative result}
 \label{sec:injection}

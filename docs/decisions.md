@@ -30,7 +30,8 @@ before any classifier saw them**. The lexicon cannot anticipate *highback*,
 patents are built from (*side member*, *raceway surface*, *stem section*).
 
 **Now.** Head-lexicon membership is a *feature*, not a gate. Candidate coverage
-went from 30% of gold spans matched exactly to 80%. The gate survives as
+went from 30% of gold spans matched exactly to 80%, measured at the recall stage
+before any filtering (`scripts/error_analysis.py` reproduces the breakdown). The gate survives as
 `recall.require_tech_head` so the ablation can quantify it — it is the
 `chunker-gated` row in the baselines table.
 
@@ -63,8 +64,10 @@ planning*.
 **Now.** Recall emits a small span lattice per chunk (every left truncation
 crossed with noun-final right boundaries, capped), and a decoder picks a
 non-overlapping set **after** typing, verification and scoring, ranked by
-calibrated confidence. Partial F₁ rose from 0.449 to 0.529 and type accuracy from
-0.42 to 0.60 on the same gold set.
+calibrated confidence. Measured at the time of the change: partial F₁ 0.449 →
+0.529, type accuracy 0.42 → 0.60. (The gold set has since been corrected, so the
+current table's numbers differ slightly; the numbers here are the ones the
+decision was made on.)
 
 ## 5. The embedding verifier rejected on type disagreement — narrowed
 
