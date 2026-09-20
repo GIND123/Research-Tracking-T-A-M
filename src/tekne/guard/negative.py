@@ -52,7 +52,6 @@ _FUNCTION_WORDS = frozenset(
 class NegativeLexiconGuard(Guard):
     name = "negative_lexicon"
     stage = "candidate"
-    blocking = True
 
     def __init__(self, *, min_chars: int = 3, max_tokens: int = 8) -> None:
         self.min_chars = min_chars

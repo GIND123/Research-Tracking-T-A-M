@@ -191,7 +191,6 @@ class SpanGroundingGuard(Guard):
 
     name = "grounding"
     stage = "candidate"
-    blocking = True
 
     def check(self, item, ctx: GuardContext) -> GuardVerdict:
         span = getattr(item, "span", None)

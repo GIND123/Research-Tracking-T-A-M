@@ -83,7 +83,6 @@ class InjectionGuard(Guard):
 
     name = "injection"
     stage = "candidate"
-    blocking = True
 
     def __init__(self, *, radius: int = 240, reject_same_sentence: bool = True) -> None:
         self.radius = radius

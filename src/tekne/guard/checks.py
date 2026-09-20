@@ -21,7 +21,6 @@ class EvidenceGuard(Guard):
 
     name = "evidence"
     stage = "mention"
-    blocking = True
 
     def check(self, item, ctx: GuardContext) -> GuardVerdict:
         evidence = getattr(item, "evidence", None)
@@ -53,7 +52,6 @@ class ConsensusGuard(Guard):
 
     name = "consensus"
     stage = "candidate"
-    blocking = True
 
     TRUSTED_SOLO = frozenset({"abbrev", "gazetteer"})
 
@@ -91,7 +89,6 @@ class TemporalGuard(Guard):
 
     name = "temporal"
     stage = "mention"
-    blocking = True
 
     def __init__(self, *, slack_years: int = 1, enabled: bool = True) -> None:
         self.slack_years = slack_years
@@ -124,7 +121,6 @@ class ProvenanceGuard(Guard):
 
     name = "provenance"
     stage = "mention"
-    blocking = True
 
     REQUIRED = ("doc_id", "proposers", "content_hash")
 
@@ -151,7 +147,6 @@ class VerifierGuard(Guard):
 
     name = "verifier"
     stage = "mention"
-    blocking = True
 
     def check(self, item, ctx: GuardContext) -> GuardVerdict:
         decision = ctx.extras.get("verifier_decisions", {}).get(_key(item))

@@ -40,8 +40,9 @@ class ConfidenceInputs:
     #: the opposite sign to a pass. Folding it in here rather than letting it
     #: drop the mention is what keeps a single abstention mechanism in the system.
     verifier_abstained: bool = False
-    #: Number of non-blocking guards that flagged the mention (consensus
-    #: shortfall, injection-like context, withheld KB link).
+    #: How many guards abstained on this mention (consensus shortfall,
+    #: injection-like context nearby, a knowledge-base link withheld as
+    #: anachronistic). Each is a reason for doubt that nothing else records.
     guard_flags: int = 0
     #: Orthographic distinctiveness: CamelCase, an acronym, a version number.
     #: A form like "SwitchRoute" or "LLaMA-2" is almost never ordinary
