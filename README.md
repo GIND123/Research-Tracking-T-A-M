@@ -21,14 +21,19 @@ rather than unlikely:
   technology name we cannot locate has returned nothing.
 - Every mention carries the sentence it was read out of, and that sentence is
   verified to contain it.
+- Both of those are re-derived from the document at the emission boundary. They
+  are not guards and cannot be configured off — the guards are filters, and
+  filters are ablatable; this is the one thing that is not.
 - Candidates are proposed generously by five independent recallers and filtered
   by a guard stack, an independent verifier and one calibrated abstention
   threshold — not by making any single stage conservative.
 - Everything the pipeline declined to emit is kept, with the reason.
 
-A companion write-up is in [`report/main.tex`](report/main.tex), and
-[`docs/decisions.md`](docs/decisions.md) records the design calls — including
-five that were wrong and what the measurements were that reversed them.
+A companion write-up is in [`report/main.tex`](report/main.tex).
+[`docs/guardrails.md`](docs/guardrails.md) is the reference for what is actually
+enforced and what can be switched off, and
+[`docs/decisions.md`](docs/decisions.md) records the design calls — including six
+that were wrong and the measurements that reversed them.
 
 ## Quick start
 
@@ -140,7 +145,12 @@ report are reported as a mechanism demonstration rather than as a trend finding.
 make test
 ```
 
-`tests/test_adversarial.py` is the one worth reading. It drives the pipeline with
+`tests/test_invariants.py` pins the properties that must hold under every
+configuration, including with every guard disabled. Each of its tests was written
+against a hole that existed: the suite passed with all three open, because they
+were only reachable through a misconfiguration or a hostile model.
+
+`tests/test_adversarial.py` is the other one worth reading. It drives the pipeline with
 a scripted backend that fabricates entities, paraphrases spans, returns malformed
 JSON, emits a thousand inventions at once, and carries a prompt-injection payload,
 and asserts that none of it reaches the output. One test in there records a

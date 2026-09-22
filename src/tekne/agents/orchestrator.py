@@ -329,6 +329,7 @@ class Pipeline:
         self._stage_guard_mentions(board)
         self._stage_score(board)
         self._stage_decode(board)
+        board.mentions = self._enforce_integrity(board)
 
         self.ledger.add(budget)
         return self._finalise(board, budget)
@@ -621,6 +622,13 @@ class Pipeline:
                 decision = decisions.get(key)
                 if decision is None or decision.verdict is not Verdict.REJECT:
                     continue
+                # A structural rejection is not a disagreement to be resolved --
+                # the span does not address its own surface, or its evidence does
+                # not contain it. There is nothing for a wider context window to
+                # add, and letting a model vote on it would make the one property
+                # the design guarantees contingent on that model's opinion.
+                if decision.source == self.structural_verifier.name:
+                    continue
                 # Only disputes worth the strongest model: the proposer had real
                 # support and the verifier still said no.
                 if len(mention.provenance.proposers) < 2:
@@ -756,6 +764,41 @@ class Pipeline:
 
     # -- helpers ------------------------------------------------------------
 
+    def _enforce_integrity(self, board: Blackboard) -> list[TechMention]:
+        """The emission boundary. Not a guard, and not configurable.
+
+        Every guard in :mod:`tekne.guard` can be switched off, because each is a
+        filter whose contribution the ablation table needs to be able to measure.
+        This is not a filter. It re-derives, from the document, the two claims a
+        mention makes about itself -- that its offsets address its surface, and
+        that its evidence span is real text containing it -- and drops it if
+        either is false.
+
+        It exists because every structural check upstream was reachable through a
+        configuration flag: disabling the verifier also disabled enforcement of
+        the structural verifier's verdict, and a sufficiently confident
+        adjudicator could overturn one. Neither hole was reachable from the
+        deterministic recallers, which is why the suite passed with both open.
+        The count is recorded rather than swallowed: a non-zero value here is a
+        bug in this system, not a property of the input.
+        """
+        doc = board.document
+        kept: list[TechMention] = []
+        violations = 0
+
+        for mention in board.mentions:
+            problem = _integrity_problem(mention, doc)
+            if problem is None:
+                kept.append(mention)
+                continue
+            violations += 1
+            board.rejected.append(_mention_record(mention, f"integrity: {problem}"))
+
+        board.extras["integrity_violations"] = violations
+        if violations:
+            board.note("integrity", dropped=violations)
+        return kept
+
     def _warm_embeddings(self, board: Blackboard) -> None:
         if self.embedding is None or not self.embedding.available:
             return
@@ -798,6 +841,7 @@ class Pipeline:
     def _finalise(self, board: Blackboard, budget: Budget) -> ExtractionResult:
         stats: dict[str, Any] = {
             "budget": budget.snapshot().__dict__,
+            "integrity_violations": board.extras.get("integrity_violations", 0),
             "n_candidates": len(board.candidates),
             "n_mentions": len(board.mentions),
             "n_rejected": len(board.rejected),
@@ -835,6 +879,21 @@ def _record(doc: Document, cand: Candidate, reason: str) -> dict[str, Any]:
         "proposers": list(cand.proposers),
         "reason": reason,
     }
+
+
+def _integrity_problem(mention: TechMention, doc: Document) -> str | None:
+    """Why this mention may not be emitted, or ``None`` if it may."""
+    span = mention.span
+    if span.end > len(doc.text):
+        return f"span [{span.start},{span.end}) past end of document"
+    if doc.text[span.start : span.end] != span.surface:
+        return f"surface {span.surface!r} is not the slice at its offsets"
+    evidence = mention.evidence.span
+    if evidence.end > len(doc.text) or doc.text[evidence.start : evidence.end] != evidence.surface:
+        return "evidence span is not the slice at its offsets"
+    if not evidence.contains(span):
+        return "evidence span does not contain the mention"
+    return None
 
 
 def _mention_record(mention: TechMention, reason: str) -> dict[str, Any]:

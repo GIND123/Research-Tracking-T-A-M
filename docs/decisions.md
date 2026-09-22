@@ -114,7 +114,28 @@ fifteen minutes — because every term is then NIL, so the residue is the whole
 vocabulary. Fixed with an interval index and with blocking on the
 head-compatibility constraint the clustering already enforced.
 
-## 9. Things deliberately not done
+## 9. Guards were all ablatable, including the ones that should not be — fixed
+
+**Original.** Every structural check sat behind a configuration flag, on the
+reasoning that the ablation table needs to measure each component's contribution.
+
+**What happened.** An audit found three holes, all latent because the
+deterministic recallers never produce a malformed span: `guards.verifier: false`
+also disabled enforcement of the *structural* verifier's verdict; the adjudicator
+could overturn a structural rejection, letting a model vote on whether a span's
+offsets addressed its own surface; and with `guards.grounding: false` nothing
+checked the invariant at all. The full suite passed with all three open.
+
+**Now.** Filters and invariants are separated. Filters stay ablatable. The
+invariant — offsets address the surface, evidence is real and contains the
+mention — is enforced unconditionally at the emission boundary by
+`Pipeline._enforce_integrity`, is not reachable by any config flag, and is not
+adjudicable. Violations are counted into
+`ExtractionResult.stats["integrity_violations"]`, where a non-zero value is a bug
+in this system rather than a property of the input.
+`tests/test_invariants.py` pins all of it. See `docs/guardrails.md`.
+
+## 10. Things deliberately not done
 
 - **A learned controller for the agent loop.** The decomposition is known and
   fixed; a model deciding stage order would add cost and non-determinism and buy

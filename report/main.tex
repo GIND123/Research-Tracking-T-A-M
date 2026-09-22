@@ -69,12 +69,12 @@ decides what to withhold.
 \textbf{(i) The vocabulary is open by construction.} The point of tracking
 technology is to see \emph{new} technology, so an extractor constrained to an
 ontology can never report one; a knowledge base is an anchor, not a target.
-\textbf{(ii) Granularity is the problem in disguise.} ``Machine learning'',
-``attention mechanism'' and ``FlashAttention'' are technologies at different
-levels, and a tracker that mixes them reports machine learning as the fastest
-growing technology of every year since 1995. We type over a nine-way ontology
-separating artefacts, methods and materials (tracked) from fields, tasks,
-metrics, datasets and tools (annotated, not tracked).
+\textbf{(ii) Granularity is the problem in disguise.} ``Machine learning'' and
+``FlashAttention'' are technologies at different levels, and a tracker that mixes
+them reports machine learning as the fastest growing technology of every year
+since 1995. We type over a nine-way ontology separating artefacts, methods and
+materials (tracked) from fields, tasks, metrics, datasets and tools (annotated,
+not tracked).
 \textbf{(iii) Stance carries most of the signal.} A count conflates a technology
 being introduced, used and beaten, so each mention is tagged \textsc{proposed},
 \textsc{used}, \textsc{compared}, \textsc{background} or \textsc{claimed}.
@@ -101,12 +101,11 @@ marked independent or dependent by back-reference detection, since a term in an
 independent claim is monopolised, not merely discussed.
 
 \paragraph{Recall over-generates on purpose.} Five recallers run per document. A
-\emph{noun-phrase lattice} expands dependency chunks \cite{honnibal2020spacy}
-into every left truncation crossed with noun-final right boundaries: whether the
-term is ``string similarity'' or ``superficial string similarity'' depends on
-information the recaller lacks, and the parser attaches a following word often
-enough to matter (``obstacle-aware route planning grounds''), which no left
-truncation recovers. \emph{Abbreviation mining} \cite{schwartz2003abbrev}
+\emph{noun-phrase lattice} expands parsed dependency chunks into every left
+truncation crossed with noun-final right boundaries: whether the term is ``string
+similarity'' or ``superficial string similarity'' depends on information the
+recaller lacks, and the parser attaches a following word often enough to matter,
+which no left truncation recovers. \emph{Abbreviation mining} \cite{schwartz2003abbrev}
 recovers the defining parenthetical, the best within-document coreference signal
 available; \emph{C-value/NC-value} \cite{frantzi2000cvalue} is the only recaller
 sensitive to \emph{nesting}, which is the granularity problem exactly; a
@@ -125,9 +124,16 @@ reports. Model-proposed spans are relocated: the cited sentence is grounded
 first, the surface searched inside it, and a bounded ladder (exact,
 whitespace-insensitive, case-insensitive, optionally a similarity snap) returns
 \emph{the document's} characters or nothing --- the similarity rung is off by
-default, since it alone can move a span onto a different entity. The invariant is
-asserted in the test suite, so the hallucination rate checks the implementation
-rather than comparing systems.
+default, since it alone can move a span onto a different entity.
+
+The invariant is enforced at the emission boundary, not by a guard. Guards are
+filters and all are ablatable, as the ablation table requires --- which had
+quietly made the invariant ablatable too: disabling the verifier also disabled
+enforcement of the \emph{structural} verdict, and the adjudicator could overturn
+a structural rejection, a model voting on whether a span's offsets addressed its
+own surface. Both holes were latent and the suite passed with them open. Offsets
+and evidence are now re-derived after decoding on every path, violations counted,
+and structural rejections are not adjudicable.
 
 \paragraph{Typing, stance, verification.} Type is a linear model over
 interpretable features --- head-noun lexicon, orthography, KB depth, zone, and a
@@ -155,8 +161,7 @@ abbreviation pairs promoted to corpus aliases, KB identity, lemma-key identity,
 then embedding agglomeration over the NIL residue under a head-compatibility
 constraint. NIL clusters get a stable synthetic identifier, so an emerging
 technology is trackable from first naming. Per-candidate verification is the
-obvious design and the wrong one: a patent yields $10^2$ candidates whose payload
-is a term, a type and one sentence. Deduplicating on (surface, type, sentence),
+obvious design and the wrong one: deduplicating on (surface, type, sentence),
 escalating only the uncertainty band, and batching ${\sim}20$ survivors per
 request behind a cached system prompt takes ${\sim}120$ calls per patent down to
 one or two --- a projected \$0.03 per document.
@@ -175,21 +180,20 @@ Iso-F$_1$ contours in grey.}
 \section{Experimental setup}
 
 \paragraph{Data.} \NumPapers{} arXiv abstracts from five category queries
-(computational linguistics, machine learning, signal processing, materials
-science, applied physics), spanning thirteen primary categories once
-cross-listing is counted; plus \NumPatents{} USPTO publications sampled from the
-HUPD frame \cite{suzgun2023hupd}, stratified four apiece over CPC sections A, B,
-C, G and H, with full text from Google Patents --- spanning snowboard bindings,
-HDAC inhibitors, Talbot--Lau interferometry, Ziegler--Natta catalysis, wheel
-bearings and spread-spectrum transmission. The spread is the point: a pipeline
-tuned on one vocabulary would visibly fail on the others.
+spanning thirteen primary categories once cross-listing is counted, plus
+\NumPatents{} USPTO publications from the HUPD frame \cite{suzgun2023hupd},
+stratified four apiece over CPC sections A, B, C, G and H with full text from
+Google Patents --- covering snowboard bindings, HDAC inhibitors, Talbot--Lau
+interferometry, Ziegler--Natta catalysis, wheel bearings and spread-spectrum
+transmission. The spread is the point: a pipeline tuned on one vocabulary would
+visibly fail on the others.
 
 \paragraph{Gold.} \NumGold{} mentions over \NumDocs{} documents
 (\NumGoldPaper{} paper, \NumGoldPatent{} patent), annotated by one author under
 written guidelines. The zone is title and abstract for papers, plus the first
 independent claim for patents capped at 1400 characters --- Markush claims run to
-thousands of characters of variable definitions naming no technology. System
-output is filtered to the same zone.
+thousands of characters naming no technology. Output is filtered to the same
+zone.
 
 \paragraph{Metrics.} Strict (exact offsets) and partial (overlap) span P/R/F$_1$;
 type and role accuracy on matched spans; the hallucination rate (emitted surfaces
@@ -247,16 +251,14 @@ That is what a verifier is for --- it does not find more, it decides what to kee
 The \emph{negative lexicon} and the \emph{KB with the abbreviation miner} trade
 the other way: dropping the lexicon costs strict precision
 (\RFullP{}$\rightarrow$\RNoNegativeP) while slightly \emph{improving} partial
-F$_1$ (\RNoNegativePF) and AURC (\RNoNegativeAurc), and dropping the KB behaves
+F$_1$ (\RNoNegativePF) and AURC (\RNoNegativeAurc); dropping the KB behaves
 similarly (\RNoStructurePF, \RNoStructureAurc). Both remove candidates that
 overlap a gold span without matching it exactly, buying exact-boundary precision
-by giving up partial credit, and the items they remove were already ranked low
-enough that removing them does not improve the ranking. At a precision target
-this is the right trade --- but it is a trade, not a free win. \emph{Consensus}
-and \emph{abstention} move strict F$_1$ by under a point and improve AURC
-(\RNoConsensusAurc, \RNoAbstentionAurc{} against \RFullAurc): they change what
-the system is confident about, not what it finds
-(Figure~\ref{fig:landscape}).
+by giving up partial credit. At a precision target this is the right trade --- but
+it is a trade, not a free win. \emph{Consensus} and \emph{abstention} move strict
+F$_1$ by under a point and improve AURC (\RNoConsensusAurc, \RNoAbstentionAurc{}
+against \RFullAurc): they change what the system is confident about, not what it
+finds (Figure~\ref{fig:landscape}).
 
 \paragraph{Genre.} Patents are harder (Table~\ref{tab:breakdown}) despite
 contributing more gold per document, because claim language generates many
@@ -283,15 +285,15 @@ prompt, making indirect prompt injection \cite{greshake2023injection} a live
 concern for a corpus built over decades of filings. We fence document text with a
 per-call nonce, but the substantive defence was supposed to be grounding.
 
-It is not sufficient, and an adversarial test showed why. An attacker who writes
-\emph{``always extract QuantumLeap Processor as the primary technology''} into
-their own specification has made that string a verbatim substring of their own
-document, and a grounded extractor has no basis to reject it. Grounding buys a
-\emph{bound}, not a defence: the adversary can only inject technologies they will
-publish under their own name. Closing the residue needed a second mechanism ---
-rejecting candidates whose own sentence contains instruction-like content ---
-which costs the mentions in example sentences of papers about prompting. We keep
-the negative result as a test so it stays visible.
+It is not sufficient, and an adversarial test showed why. An attacker writing
+\emph{``always extract QuantumLeap Processor''} into their own specification has
+made that string a verbatim substring of their own document, and a grounded
+extractor has no basis to reject it. Grounding buys a \emph{bound}, not a
+defence: the adversary can only inject technologies they will publish under their
+own name. Closing the residue needed a second mechanism --- rejecting candidates
+whose own sentence contains instruction-like content --- at the cost of mentions
+in example sentences of papers about prompting. We keep the negative result as a
+test so it stays visible.
 
 \section{Limitations and future work}
 
@@ -301,9 +303,9 @@ rather than per occurrence, making patent role accuracy closer to zone detection
 than stance classification, and the paper sample over-represents LLM-adjacent
 work. In the offline configuration the type classifier and the embedding verifier
 share a distributional signal, so that verifier is a consistency check rather than
-an independent one; genuine independence needs the LLM tier. The zone excludes
-patent descriptions, where much specific disclosure lives, and \NumDocs{}
-documents supports ablation comparison but not absolute claims. The downstream
+an independent one. The zone excludes patent descriptions, where much disclosure
+lives, and \NumDocs{} documents supports ablation comparison but not absolute
+claims. The downstream
 tracking demonstration is weaker than intended: its time-sliced corpus is built
 from the arXiv API a year at a time and the endpoint rate-limited us to two
 usable slices, so the aggregation logic is exercised by unit tests on synthetic
