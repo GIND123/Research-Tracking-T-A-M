@@ -15,6 +15,7 @@ kept unless ``--refresh`` is given.
 from __future__ import annotations
 
 import argparse
+import json
 import random
 import sys
 from pathlib import Path
@@ -48,8 +49,49 @@ EVAL_QUERIES = [
 TREND_QUERY = "cat:cs.CL OR cat:cs.LG OR cat:cs.CV"
 
 
+
+def refuse_if_gold_depends_on_it(out: Path, force: bool) -> bool:
+    """Stop a refetch from silently invalidating the gold set.
+
+    `--refresh` on a corpus the gold file is anchored into is the one destructive
+    thing this script can do, and it fails silently: the arXiv query is sorted by
+    submission date descending, so a refetch returns whatever is newest that day,
+    every offset in data/gold/gold.jsonl then addresses a different document, and
+    the corpus still looks perfectly well-formed. The audit that found this had to
+    reason it out rather than observe it, which is exactly the kind of failure
+    worth spending a guard on.
+
+    Returns True if the caller should stop.
+    """
+    gold = Path("data/gold/gold.jsonl")
+    if force or not out.is_file() or not gold.is_file():
+        return False
+
+    try:
+        anchored = {json.loads(line)["doc_id"] for line in gold.read_text().splitlines() if line.strip()}
+        existing = {d.doc_id for d in read_jsonl(out)}
+    except Exception:
+        return False
+
+    shared = anchored & existing
+    if not shared:
+        return False
+
+    print(
+        f"refusing to overwrite {out}: {len(shared)} of its documents are anchored "
+        f"by data/gold/gold.jsonl.\n"
+        f"A refetch returns different papers (the query is newest-first), so every "
+        f"gold offset would silently address the wrong text.\n"
+        f"To build a NEW sample for new annotation, pass --force-overwrite-gold-corpus.",
+        file=sys.stderr,
+    )
+    return True
+
+
 def cmd_eval(args: argparse.Namespace) -> int:
     out = Path(args.out) / "papers_eval.jsonl"
+    if refuse_if_gold_depends_on_it(out, getattr(args, "force_overwrite_gold_corpus", False)):
+        return 1
     if out.is_file() and not args.refresh:
         print(f"{out} exists ({len(read_jsonl(out))} docs); pass --refresh to rebuild")
         return 0
@@ -116,6 +158,8 @@ def cmd_trend(args: argparse.Namespace) -> int:
 
 def cmd_patents(args: argparse.Namespace) -> int:
     out = Path(args.out) / "patents_eval.jsonl"
+    if refuse_if_gold_depends_on_it(out, getattr(args, "force_overwrite_gold_corpus", False)):
+        return 1
     if out.is_file() and not args.refresh:
         print(f"{out} exists ({len(read_jsonl(out))} docs); pass --refresh to rebuild")
         return 0
@@ -178,6 +222,11 @@ def main() -> int:
     parser.add_argument("--out", default="data/raw")
     parser.add_argument("--delay", type=float, default=3.0)
     parser.add_argument("--refresh", action="store_true")
+    parser.add_argument(
+        "--force-overwrite-gold-corpus",
+        action="store_true",
+        help="overwrite a corpus the gold set is anchored into (invalidates the gold offsets)",
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("eval").set_defaults(func=cmd_eval)
