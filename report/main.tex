@@ -114,10 +114,12 @@ cannot find anything new but earns its place as a consensus witness; and a tier-
 \emph{language model} runs only over thin zones.
 
 We initially gated the chunker on a curated head-noun lexicon --- the natural
-design, and apparently a precision win. It is not: gating discards \textbf{53\%}
-of gold mentions before any classifier sees them, because no lexicon anticipates
-\emph{highback}, \emph{rule-based elision}, or the mechanical-component
-vocabulary patents are built from. Table~\ref{tab:results} reports both.
+design, and apparently a precision win. It is not: recall-stage coverage of gold
+falls from \CoverageOpen\% to \CoverageGated\%, so the gate discards
+\textbf{\GateDrops\%} of gold before any classifier sees it --- no lexicon
+anticipates \emph{highback}, \emph{rule-based elision}, or the
+mechanical-component vocabulary patents are built from. Table~\ref{tab:results}
+reports both.
 
 \paragraph{Grounding.} Every candidate must be a verbatim slice at the offsets it
 reports. Model-proposed spans are relocated: the cited sentence is grounded
@@ -266,12 +268,13 @@ well-formed component noun phrases indistinguishable from technology mentions
 without domain knowledge --- ``a first position'', ``said support section''.
 
 \paragraph{Error analysis.} Attributing each scored gold mention to one outcome
-(Figure~\ref{fig:breakdown}a) is clearer than the F$_1$ columns. Only 8.7\% were
-never proposed: genuine recall failure is the smallest category. The two largest
-losses are recoverable in different senses --- 25.6\% are withheld by the
-confidence threshold, the risk--coverage trade being made deliberately and
-recovered by one knob; 13.7\% lose overlap decoding to a neighbouring span, which
-partial F$_1$ still credits. Of the 10.3\% rejected by a guard, four-fifths were
+(Figure~\ref{fig:breakdown}a) is clearer than the F$_1$ columns. Only
+\ErrNeverProposed\% were never proposed: genuine recall failure is the smallest
+category. The two largest losses are recoverable in different senses ---
+\ErrWithheld\% are withheld by the confidence threshold, the risk--coverage trade
+being made deliberately and recovered by one knob; \ErrDecode\% lose overlap
+decoding to a neighbouring span, which partial F$_1$ still credits. Of the
+\ErrRejected\% rejected by a guard, four-fifths were
 typed \textsc{not\_tech}; the costly confusions are
 \textsc{method}/\textsc{artifact}$\rightarrow$\textsc{task}, the boundary the
 guidelines flag as hardest, and why method recall

@@ -18,7 +18,7 @@ setup: ## create the venv and install the package with all extras
 	$(PIP) install -e '.[neural,llm,plots,dev]'
 	$(PY) -m spacy download en_core_web_sm
 
-data: ## fetch the evaluation corpora (arXiv + Google Patents)
+data: ## fetch a NEW sample (does not reproduce the committed corpora -- see README)
 	$(PY) scripts/fetch_data.py eval
 	$(PY) scripts/fetch_data.py patents --n 24
 
@@ -28,7 +28,7 @@ trend-data: ## fetch the larger time-sliced corpus for the evolution demo
 kb: ## compile the Computer Science Ontology into a gazetteer
 	$(PY) scripts/build_kb.py --out data/kb/cso.json
 
-gold: ## expand the annotation table into offset-anchored gold records
+gold: ## re-expand the annotation table against the committed corpora
 	$(PY) scripts/make_gold.py
 
 eval: ## run baselines and ablations, write runs/eval/results.{json,tex}

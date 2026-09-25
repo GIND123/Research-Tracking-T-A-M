@@ -318,13 +318,16 @@ def test_gold_file_matches_the_corpus():
     if not gold_path.is_file():
         pytest.skip("gold not built; run scripts/make_gold.py")
 
+    # Not a skip. Both corpora are tracked in the repository precisely because
+    # the gold offsets address those exact documents and `make data` cannot
+    # reproduce them. If they are missing the checkout is broken, and skipping
+    # would let a repository that cannot reproduce its own headline numbers
+    # report a green suite.
     documents = {}
     for name in ("papers_eval.jsonl", "patents_eval.jsonl"):
         path = Path("data/raw") / name
-        if path.is_file():
-            documents.update({d.doc_id: d for d in read_jsonl(path)})
-    if not documents:
-        pytest.skip("corpora not fetched; run scripts/fetch_data.py")
+        assert path.is_file(), f"{path} is tracked in git but missing from the checkout"
+        documents.update({d.doc_id: d for d in read_jsonl(path)})
 
     problems = validate_gold(read_gold(gold_path), documents)
     assert problems == [], problems[:5]

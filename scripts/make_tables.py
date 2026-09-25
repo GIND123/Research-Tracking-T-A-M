@@ -216,10 +216,43 @@ def corpus_numbers(gold_path: Path) -> dict[str, str]:
     }
 
 
+def error_numbers(path: Path) -> dict[str, str]:
+    """Macros for the stage-wise error analysis and the head-noun gating claim.
+
+    These were typed into the report by hand, which is how the gating figure went
+    stale: it was measured before the gold set was corrected and the span lattice
+    widened, and it understated the effect by eleven points. Anything quoted in
+    prose now comes from a file the evaluation writes.
+    """
+    if not path.is_file():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    out: dict[str, str] = {"ErrScored": str(payload.get("gold_scored", 0))}
+    names = {
+        "emitted": "ErrEmitted",
+        "withheld": "ErrWithheld",
+        "lost_at_decode": "ErrDecode",
+        "rejected": "ErrRejected",
+        "never_proposed": "ErrNeverProposed",
+        "wrong_type": "ErrWrongType",
+    }
+    for key, macro in names.items():
+        row = payload.get("outcomes", {}).get(key)
+        if row:
+            out[macro] = f"{row['share'] * 100:.1f}"
+    coverage = payload.get("recall_stage_coverage") or {}
+    if coverage:
+        out["GateDrops"] = f"{coverage['dropped_by_gate'] * 100:.0f}"
+        out["CoverageOpen"] = f"{coverage['open'] * 100:.1f}"
+        out["CoverageGated"] = f"{coverage['gated'] * 100:.1f}"
+    return out
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--results", default="runs/eval/results.json")
     parser.add_argument("--gold", default="data/gold/gold.jsonl")
+    parser.add_argument("--errors", default="runs/eval/error_analysis.json")
     parser.add_argument("--out", default="report/tables")
     args = parser.parse_args()
 
@@ -230,9 +263,9 @@ def main() -> int:
     (out / "results.tex").write_text(results_table(conditions), encoding="utf-8")
     (out / "selective.tex").write_text(selective_table(conditions), encoding="utf-8")
     (out / "genre.tex").write_text(genre_table(conditions), encoding="utf-8")
-    (out / "numbers.tex").write_text(
-        macros(conditions, corpus_numbers(Path(args.gold))), encoding="utf-8"
-    )
+    extra = corpus_numbers(Path(args.gold))
+    extra.update(error_numbers(Path(args.errors)))
+    (out / "numbers.tex").write_text(macros(conditions, extra), encoding="utf-8")
 
     print(f"wrote {len(list(out.glob('*.tex')))} files to {out}")
     for name in sorted(conditions):

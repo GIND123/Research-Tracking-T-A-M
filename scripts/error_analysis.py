@@ -60,6 +60,55 @@ def recall_stage_spans(pipeline: Pipeline, doc, analysis) -> set[tuple[int, int]
     return {(c.span.start, c.span.end) for c in merged}
 
 
+def gating_coverage(pipeline: Pipeline, documents, gold, analyses) -> dict[str, float]:
+    """Candidate-stage coverage with and without the head-noun gate.
+
+    Measured at the recall stage, before any classifier: the question is how many
+    gold mentions the gate removes from consideration entirely, which is not the
+    same quantity as the end-to-end recall difference between the two chunker
+    baselines. Regenerated here rather than quoted from memory -- an earlier
+    hand-typed figure went stale when the gold set was corrected.
+    """
+    from tekne.recall.abbrev import AbbreviationRecaller
+    from tekne.recall.cvalue import TermStatRecaller
+    from tekne.recall.gazetteer import GazetteerRecaller
+    from tekne.recall.patterns import PatternRecaller
+
+    out: dict[str, float] = {}
+    for gated in (False, True):
+        recallers = [
+            PatternRecaller(
+                max_chunk_tokens=pipeline.config.recall.max_chunk_tokens,
+                require_tech_head=gated,
+            ),
+            AbbreviationRecaller(),
+            TermStatRecaller(threshold=pipeline.config.recall.cvalue_threshold),
+            GazetteerRecaller(),
+        ]
+        total = exact = 0
+        for doc in documents:
+            ctx = RecallContext(
+                document=doc,
+                analysis=analyses[doc.doc_id],
+                corpus_stats=pipeline.corpus_stats,
+                gazetteer=pipeline.gazetteer,
+            )
+            spans = {
+                (c.span.start, c.span.end)
+                for c in merge_candidates([r.propose(ctx) for r in recallers])
+            }
+            for mention in gold[doc.doc_id].mentions:
+                if mention.type not in DEFAULT_SCORED_TYPES:
+                    continue
+                total += 1
+                exact += (mention.start, mention.end) in spans
+        out["gated" if gated else "open"] = exact / total if total else 0.0
+    out["dropped_by_gate"] = (
+        1 - out["gated"] / out["open"] if out.get("open") else 0.0
+    )
+    return out
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--gold", default="data/gold/gold.jsonl")
@@ -134,6 +183,7 @@ def main() -> int:
     payload = {
         "documents": len(documents),
         "gold_scored": total,
+        "recall_stage_coverage": gating_coverage(pipeline, documents, gold, analyses),
         "outcomes": {k: {"n": v, "share": round(v / total, 4)} for k, v in outcomes.most_common()},
         "rejected_by_guard": dict(by_guard.most_common()),
         "type_confusions": dict(type_errors.most_common(10)),
@@ -151,6 +201,11 @@ def main() -> int:
         print("  rejected by:", dict(by_guard.most_common(5)))
     if type_errors:
         print("  type errors:", dict(type_errors.most_common(5)))
+    cov = payload["recall_stage_coverage"]
+    print(
+        f"  recall-stage coverage: open {cov['open']:.3f}, gated {cov['gated']:.3f} "
+        f"-> the gate drops {cov['dropped_by_gate']:.1%} before any classifier"
+    )
     print(f"wrote {out}")
     return 0
 

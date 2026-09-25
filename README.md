@@ -40,10 +40,16 @@ that were wrong and the measurements that reversed them.
 ```sh
 make setup          # venv, package, spaCy model
 make kb             # compile the Computer Science Ontology gazetteer (~2 min)
-make data           # fetch 24 arXiv abstracts + 20 USPTO publications
-make gold           # expand the annotation table into offset-anchored gold
 make eval           # baselines + ablations -> runs/eval/results.{json,tex}
+make paper          # regenerate tables and figures, build report/main.pdf
 ```
+
+The evaluation corpora are **committed**, so `make eval` reproduces the published
+numbers from a clean clone. Do not run `make data` expecting to get them back:
+the arXiv query is sorted by submission date descending, so it returns whatever
+is newest that day, and every offset in `data/gold/gold.jsonl` would then address
+a different document. `make data` is there for building a *new* sample, which
+needs new annotation.
 
 No API key is needed. Without one the pipeline runs its deterministic and neural
 tiers, reports that it did so, and produces every offline row of every table. To

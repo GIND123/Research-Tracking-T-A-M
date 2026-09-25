@@ -1,0 +1,1098 @@
+{
+  "generated": "2026-09-20T16:54:34",
+  "conditions": [
+    {
+      "name": "gazetteer",
+      "description": "CSO dictionary match only",
+      "config_digest": "974475ab6660",
+      "seconds": 1.15,
+      "metrics": {
+        "strict": {
+          "precision": 0.3027,
+          "recall": 0.0684,
+          "f1": 0.1116,
+          "tp": 56,
+          "fp": 129,
+          "fn": 763
+        },
+        "partial": {
+          "precision": 0.5892,
+          "recall": 0.1331,
+          "f1": 0.2171,
+          "tp": 109,
+          "fp": 76,
+          "fn": 710
+        },
+        "type_accuracy": 0.2936,
+        "role_accuracy": 0.4587,
+        "hallucination_rate": 0.0,
+        "n_system": 185,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 0.2259,
+        "per_genre": {
+          "paper": {
+            "precision": 0.186,
+            "recall": 0.0584,
+            "f1": 0.0889,
+            "tp": 16,
+            "fp": 70,
+            "fn": 258
+          },
+          "patent": {
+            "precision": 0.404,
+            "recall": 0.0734,
+            "f1": 0.1242,
+            "tp": 40,
+            "fp": 59,
+            "fn": 505
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 28,
+            "missed": 218,
+            "recall": 0.1138
+          },
+          "artifact": {
+            "matched": 81,
+            "missed": 409,
+            "recall": 0.1653
+          },
+          "material": {
+            "matched": 0,
+            "missed": 83,
+            "recall": 0.0
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 25,
+            "artifact": 3
+          },
+          "artifact": {
+            "artifact": 7,
+            "method": 74
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.29869,
+        "ece": 0.39892,
+        "precision_at_80_coverage": 0.6351,
+        "precision_at_50_coverage": 0.6452,
+        "coverage_at_90_precision": 0.0108
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 1.02,
+        "seconds_per_doc": 0.023,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "chunker",
+      "description": "noun-phrase chunker, open vocabulary",
+      "config_digest": "60e1e5aed81a",
+      "seconds": 32.84,
+      "metrics": {
+        "strict": {
+          "precision": 0.1741,
+          "recall": 0.4737,
+          "f1": 0.2547,
+          "tp": 388,
+          "fp": 1840,
+          "fn": 431
+        },
+        "partial": {
+          "precision": 0.3021,
+          "recall": 0.8217,
+          "f1": 0.4417,
+          "tp": 673,
+          "fp": 1555,
+          "fn": 146
+        },
+        "type_accuracy": 0.3863,
+        "role_accuracy": 0.4209,
+        "hallucination_rate": 0.0,
+        "n_system": 2228,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 2.7204,
+        "per_genre": {
+          "paper": {
+            "precision": 0.0719,
+            "recall": 0.365,
+            "f1": 0.1201,
+            "tp": 100,
+            "fp": 1291,
+            "fn": 174
+          },
+          "patent": {
+            "precision": 0.3441,
+            "recall": 0.5284,
+            "f1": 0.4168,
+            "tp": 288,
+            "fp": 549,
+            "fn": 257
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 205,
+            "missed": 41,
+            "recall": 0.8333
+          },
+          "artifact": {
+            "matched": 411,
+            "missed": 79,
+            "recall": 0.8388
+          },
+          "material": {
+            "matched": 57,
+            "missed": 26,
+            "recall": 0.6867
+          }
+        },
+        "confusion": {
+          "method": {
+            "artifact": 27,
+            "method": 178
+          },
+          "artifact": {
+            "artifact": 70,
+            "method": 339,
+            "material": 2
+          },
+          "material": {
+            "method": 37,
+            "artifact": 8,
+            "material": 12
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.59547,
+        "ece": 0.6379,
+        "precision_at_80_coverage": 0.3309,
+        "precision_at_50_coverage": 0.3941,
+        "coverage_at_90_precision": 0.0004
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 32.28,
+        "seconds_per_doc": 0.734,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "chunker-gated",
+      "description": "noun-phrase chunker gated on the technology head-noun lexicon",
+      "config_digest": "e3d433b8d1b7",
+      "seconds": 8.44,
+      "metrics": {
+        "strict": {
+          "precision": 0.2267,
+          "recall": 0.1929,
+          "f1": 0.2084,
+          "tp": 158,
+          "fp": 539,
+          "fn": 661
+        },
+        "partial": {
+          "precision": 0.429,
+          "recall": 0.3651,
+          "f1": 0.3945,
+          "tp": 299,
+          "fp": 398,
+          "fn": 520
+        },
+        "type_accuracy": 0.4415,
+        "role_accuracy": 0.4732,
+        "hallucination_rate": 0.0,
+        "n_system": 697,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 0.851,
+        "per_genre": {
+          "paper": {
+            "precision": 0.1791,
+            "recall": 0.219,
+            "f1": 0.197,
+            "tp": 60,
+            "fp": 275,
+            "fn": 214
+          },
+          "patent": {
+            "precision": 0.2707,
+            "recall": 0.1798,
+            "f1": 0.2161,
+            "tp": 98,
+            "fp": 264,
+            "fn": 447
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 72,
+            "missed": 174,
+            "recall": 0.2927
+          },
+          "artifact": {
+            "matched": 203,
+            "missed": 287,
+            "recall": 0.4143
+          },
+          "material": {
+            "matched": 24,
+            "missed": 59,
+            "recall": 0.2892
+          }
+        },
+        "confusion": {
+          "method": {
+            "artifact": 19,
+            "method": 53
+          },
+          "artifact": {
+            "artifact": 67,
+            "method": 134,
+            "material": 2
+          },
+          "material": {
+            "artifact": 5,
+            "method": 7,
+            "material": 12
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.56821,
+        "ece": 0.53156,
+        "precision_at_80_coverage": 0.4552,
+        "precision_at_50_coverage": 0.4527,
+        "coverage_at_90_precision": 0.0014
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 8.12,
+        "seconds_per_doc": 0.185,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "cvalue",
+      "description": "C-value / NC-value terminology extraction",
+      "config_digest": "2223d9e8f8da",
+      "seconds": 20.33,
+      "metrics": {
+        "strict": {
+          "precision": 0.0045,
+          "recall": 0.0024,
+          "f1": 0.0032,
+          "tp": 2,
+          "fp": 444,
+          "fn": 817
+        },
+        "partial": {
+          "precision": 0.5224,
+          "recall": 0.2845,
+          "f1": 0.3684,
+          "tp": 233,
+          "fp": 213,
+          "fn": 586
+        },
+        "type_accuracy": 0.3991,
+        "role_accuracy": 0.4549,
+        "hallucination_rate": 0.0,
+        "n_system": 446,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 0.5446,
+        "per_genre": {
+          "paper": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "tp": 0,
+            "fp": 138,
+            "fn": 274
+          },
+          "patent": {
+            "precision": 0.0065,
+            "recall": 0.0037,
+            "f1": 0.0047,
+            "tp": 2,
+            "fp": 306,
+            "fn": 543
+          }
+        },
+        "per_type": {
+          "artifact": {
+            "matched": 149,
+            "missed": 341,
+            "recall": 0.3041
+          },
+          "method": {
+            "matched": 49,
+            "missed": 197,
+            "recall": 0.1992
+          },
+          "material": {
+            "matched": 35,
+            "missed": 48,
+            "recall": 0.4217
+          }
+        },
+        "confusion": {
+          "artifact": {
+            "artifact": 30,
+            "method": 114,
+            "material": 5
+          },
+          "method": {
+            "method": 33,
+            "artifact": 16
+          },
+          "material": {
+            "material": 30,
+            "method": 5
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.52001,
+        "ece": 0.4419,
+        "precision_at_80_coverage": 0.5126,
+        "precision_at_50_coverage": 0.4843,
+        "coverage_at_90_precision": 0.0022
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 19.07,
+        "seconds_per_doc": 0.433,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "union",
+      "description": "union of all deterministic recallers, no guards or verification",
+      "config_digest": "7dba9878ae64",
+      "seconds": 49.05,
+      "metrics": {
+        "strict": {
+          "precision": 0.1273,
+          "recall": 0.3578,
+          "f1": 0.1878,
+          "tp": 293,
+          "fp": 2009,
+          "fn": 526
+        },
+        "partial": {
+          "precision": 0.2941,
+          "recall": 0.8266,
+          "f1": 0.4338,
+          "tp": 677,
+          "fp": 1625,
+          "fn": 142
+        },
+        "type_accuracy": 0.4018,
+        "role_accuracy": 0.4258,
+        "hallucination_rate": 0.0,
+        "n_system": 2302,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 2.8107,
+        "per_genre": {
+          "paper": {
+            "precision": 0.0754,
+            "recall": 0.3978,
+            "f1": 0.1268,
+            "tp": 109,
+            "fp": 1336,
+            "fn": 165
+          },
+          "patent": {
+            "precision": 0.2147,
+            "recall": 0.3376,
+            "f1": 0.2625,
+            "tp": 184,
+            "fp": 673,
+            "fn": 361
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 203,
+            "missed": 43,
+            "recall": 0.8252
+          },
+          "artifact": {
+            "matched": 409,
+            "missed": 81,
+            "recall": 0.8347
+          },
+          "material": {
+            "matched": 65,
+            "missed": 18,
+            "recall": 0.7831
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 156,
+            "artifact": 47
+          },
+          "artifact": {
+            "artifact": 86,
+            "method": 317,
+            "material": 6
+          },
+          "material": {
+            "method": 26,
+            "artifact": 9,
+            "material": 30
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.59074,
+        "ece": 0.65216,
+        "precision_at_80_coverage": 0.3219,
+        "precision_at_50_coverage": 0.3988,
+        "coverage_at_90_precision": 0.0009
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 47.6,
+        "seconds_per_doc": 1.082,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "full",
+      "description": "complete pipeline at the configured tier",
+      "config_digest": "aed0e3258545",
+      "seconds": 54.93,
+      "metrics": {
+        "strict": {
+          "precision": 0.3368,
+          "recall": 0.3944,
+          "f1": 0.3633,
+          "tp": 323,
+          "fp": 636,
+          "fn": 496
+        },
+        "partial": {
+          "precision": 0.5109,
+          "recall": 0.5983,
+          "f1": 0.5512,
+          "tp": 490,
+          "fp": 469,
+          "fn": 329
+        },
+        "type_accuracy": 0.5959,
+        "role_accuracy": 0.4672,
+        "hallucination_rate": 0.0,
+        "n_system": 959,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 1.1709,
+        "per_genre": {
+          "paper": {
+            "precision": 0.219,
+            "recall": 0.354,
+            "f1": 0.2706,
+            "tp": 97,
+            "fp": 346,
+            "fn": 177
+          },
+          "patent": {
+            "precision": 0.438,
+            "recall": 0.4147,
+            "f1": 0.426,
+            "tp": 226,
+            "fp": 290,
+            "fn": 319
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 102,
+            "missed": 144,
+            "recall": 0.4146
+          },
+          "artifact": {
+            "matched": 331,
+            "missed": 159,
+            "recall": 0.6755
+          },
+          "material": {
+            "matched": 57,
+            "missed": 26,
+            "recall": 0.6867
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 81,
+            "artifact": 21
+          },
+          "artifact": {
+            "artifact": 193,
+            "method": 135,
+            "material": 3
+          },
+          "material": {
+            "material": 18,
+            "artifact": 7,
+            "method": 32
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.39638,
+        "ece": 0.30949,
+        "precision_at_80_coverage": 0.5312,
+        "precision_at_50_coverage": 0.5917,
+        "coverage_at_90_precision": 0.0125
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 52.9,
+        "seconds_per_doc": 1.202,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "-negative",
+      "description": "without the negative lexicon guard",
+      "config_digest": "ba4b362941ed",
+      "seconds": 56.76,
+      "metrics": {
+        "strict": {
+          "precision": 0.2749,
+          "recall": 0.3602,
+          "f1": 0.3118,
+          "tp": 295,
+          "fp": 778,
+          "fn": 524
+        },
+        "partial": {
+          "precision": 0.4949,
+          "recall": 0.6484,
+          "f1": 0.5613,
+          "tp": 531,
+          "fp": 542,
+          "fn": 288
+        },
+        "type_accuracy": 0.6026,
+        "role_accuracy": 0.4499,
+        "hallucination_rate": 0.0,
+        "n_system": 1073,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 1.3101,
+        "per_genre": {
+          "paper": {
+            "precision": 0.185,
+            "recall": 0.3504,
+            "f1": 0.2421,
+            "tp": 96,
+            "fp": 423,
+            "fn": 178
+          },
+          "patent": {
+            "precision": 0.3592,
+            "recall": 0.3651,
+            "f1": 0.3621,
+            "tp": 199,
+            "fp": 355,
+            "fn": 346
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 130,
+            "missed": 116,
+            "recall": 0.5285
+          },
+          "artifact": {
+            "matched": 339,
+            "missed": 151,
+            "recall": 0.6918
+          },
+          "material": {
+            "matched": 62,
+            "missed": 21,
+            "recall": 0.747
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 86,
+            "artifact": 44
+          },
+          "artifact": {
+            "artifact": 198,
+            "method": 133,
+            "material": 8
+          },
+          "material": {
+            "material": 36,
+            "artifact": 6,
+            "method": 20
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.38693,
+        "ece": 0.31894,
+        "precision_at_80_coverage": 0.5355,
+        "precision_at_50_coverage": 0.5847,
+        "coverage_at_90_precision": 0.0112
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 54.92,
+        "seconds_per_doc": 1.248,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "-consensus",
+      "description": "without cross-recaller agreement",
+      "config_digest": "aff0b25a01c7",
+      "seconds": 50.61,
+      "metrics": {
+        "strict": {
+          "precision": 0.3307,
+          "recall": 0.4127,
+          "f1": 0.3672,
+          "tp": 338,
+          "fp": 684,
+          "fn": 481
+        },
+        "partial": {
+          "precision": 0.499,
+          "recall": 0.6227,
+          "f1": 0.554,
+          "tp": 510,
+          "fp": 512,
+          "fn": 309
+        },
+        "type_accuracy": 0.5941,
+        "role_accuracy": 0.4596,
+        "hallucination_rate": 0.0,
+        "n_system": 1022,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 1.2479,
+        "per_genre": {
+          "paper": {
+            "precision": 0.2106,
+            "recall": 0.3759,
+            "f1": 0.27,
+            "tp": 103,
+            "fp": 386,
+            "fn": 171
+          },
+          "patent": {
+            "precision": 0.4409,
+            "recall": 0.4312,
+            "f1": 0.436,
+            "tp": 235,
+            "fp": 298,
+            "fn": 310
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 115,
+            "missed": 131,
+            "recall": 0.4675
+          },
+          "artifact": {
+            "matched": 338,
+            "missed": 152,
+            "recall": 0.6898
+          },
+          "material": {
+            "matched": 57,
+            "missed": 26,
+            "recall": 0.6867
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 92,
+            "artifact": 23
+          },
+          "artifact": {
+            "artifact": 193,
+            "method": 142,
+            "material": 3
+          },
+          "material": {
+            "material": 18,
+            "artifact": 7,
+            "method": 32
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.40421,
+        "ece": 0.31455,
+        "precision_at_80_coverage": 0.5183,
+        "precision_at_50_coverage": 0.5753,
+        "coverage_at_90_precision": 0.0117
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 48.79,
+        "seconds_per_doc": 1.109,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "-verifier",
+      "description": "without adversarial verification",
+      "config_digest": "e760236a18d2",
+      "seconds": 44.58,
+      "metrics": {
+        "strict": {
+          "precision": 0.1917,
+          "recall": 0.4762,
+          "f1": 0.2734,
+          "tp": 390,
+          "fp": 1644,
+          "fn": 429
+        },
+        "partial": {
+          "precision": 0.322,
+          "recall": 0.7998,
+          "f1": 0.4592,
+          "tp": 655,
+          "fp": 1379,
+          "fn": 164
+        },
+        "type_accuracy": 0.3985,
+        "role_accuracy": 0.4202,
+        "hallucination_rate": 0.0,
+        "n_system": 2034,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 2.4835,
+        "per_genre": {
+          "paper": {
+            "precision": 0.0922,
+            "recall": 0.427,
+            "f1": 0.1517,
+            "tp": 117,
+            "fp": 1152,
+            "fn": 157
+          },
+          "patent": {
+            "precision": 0.3569,
+            "recall": 0.5009,
+            "f1": 0.4168,
+            "tp": 273,
+            "fp": 492,
+            "fn": 272
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 192,
+            "missed": 54,
+            "recall": 0.7805
+          },
+          "artifact": {
+            "matched": 405,
+            "missed": 85,
+            "recall": 0.8265
+          },
+          "material": {
+            "matched": 58,
+            "missed": 25,
+            "recall": 0.6988
+          }
+        },
+        "confusion": {
+          "method": {
+            "artifact": 28,
+            "method": 164
+          },
+          "artifact": {
+            "artifact": 85,
+            "method": 316,
+            "material": 4
+          },
+          "material": {
+            "method": 39,
+            "artifact": 7,
+            "material": 12
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.54857,
+        "ece": 0.61203,
+        "precision_at_80_coverage": 0.3563,
+        "precision_at_50_coverage": 0.4444,
+        "coverage_at_90_precision": 0.001
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 43.15,
+        "seconds_per_doc": 0.981,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "-abstention",
+      "description": "emit every surviving mention regardless of confidence",
+      "config_digest": "bc0391187c38",
+      "seconds": 52.36,
+      "metrics": {
+        "strict": {
+          "precision": 0.3068,
+          "recall": 0.4567,
+          "f1": 0.367,
+          "tp": 374,
+          "fp": 845,
+          "fn": 445
+        },
+        "partial": {
+          "precision": 0.4553,
+          "recall": 0.6777,
+          "f1": 0.5447,
+          "tp": 555,
+          "fp": 664,
+          "fn": 264
+        },
+        "type_accuracy": 0.5982,
+        "role_accuracy": 0.4312,
+        "hallucination_rate": 0.0,
+        "n_system": 1219,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 1.4884,
+        "per_genre": {
+          "paper": {
+            "precision": 0.1784,
+            "recall": 0.4161,
+            "f1": 0.2497,
+            "tp": 114,
+            "fp": 525,
+            "fn": 160
+          },
+          "patent": {
+            "precision": 0.4483,
+            "recall": 0.4771,
+            "f1": 0.4622,
+            "tp": 260,
+            "fp": 320,
+            "fn": 285
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 143,
+            "missed": 103,
+            "recall": 0.5813
+          },
+          "artifact": {
+            "matched": 354,
+            "missed": 136,
+            "recall": 0.7224
+          },
+          "material": {
+            "matched": 58,
+            "missed": 25,
+            "recall": 0.6988
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 119,
+            "artifact": 24
+          },
+          "artifact": {
+            "artifact": 195,
+            "method": 156,
+            "material": 3
+          },
+          "material": {
+            "material": 18,
+            "artifact": 8,
+            "method": 32
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.4224,
+        "ece": 0.26896,
+        "precision_at_80_coverage": 0.5072,
+        "precision_at_50_coverage": 0.5525,
+        "coverage_at_90_precision": 0.0098
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 50.35,
+        "seconds_per_doc": 1.144,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    },
+    {
+      "name": "-structure",
+      "description": "without the knowledge base and abbreviation miner",
+      "config_digest": "ad9d010d0764",
+      "seconds": 60.79,
+      "metrics": {
+        "strict": {
+          "precision": 0.3497,
+          "recall": 0.3736,
+          "f1": 0.3613,
+          "tp": 306,
+          "fp": 569,
+          "fn": 513
+        },
+        "partial": {
+          "precision": 0.544,
+          "recall": 0.5812,
+          "f1": 0.562,
+          "tp": 476,
+          "fp": 399,
+          "fn": 343
+        },
+        "type_accuracy": 0.584,
+        "role_accuracy": 0.4557,
+        "hallucination_rate": 0.0,
+        "n_system": 875,
+        "n_gold": 819,
+        "n_documents": 44,
+        "coverage": 1.0684,
+        "per_genre": {
+          "paper": {
+            "precision": 0.2071,
+            "recall": 0.2993,
+            "f1": 0.2448,
+            "tp": 82,
+            "fp": 314,
+            "fn": 192
+          },
+          "patent": {
+            "precision": 0.4676,
+            "recall": 0.411,
+            "f1": 0.4375,
+            "tp": 224,
+            "fp": 255,
+            "fn": 321
+          }
+        },
+        "per_type": {
+          "method": {
+            "matched": 94,
+            "missed": 152,
+            "recall": 0.3821
+          },
+          "artifact": {
+            "matched": 326,
+            "missed": 164,
+            "recall": 0.6653
+          },
+          "material": {
+            "matched": 56,
+            "missed": 27,
+            "recall": 0.6747
+          }
+        },
+        "confusion": {
+          "method": {
+            "method": 78,
+            "artifact": 16
+          },
+          "artifact": {
+            "artifact": 182,
+            "method": 140,
+            "material": 4
+          },
+          "material": {
+            "material": 18,
+            "artifact": 6,
+            "method": 32
+          }
+        },
+        "notes": []
+      },
+      "selective": {
+        "aurc": 0.36302,
+        "ece": 0.26105,
+        "precision_at_80_coverage": 0.5686,
+        "precision_at_50_coverage": 0.6233,
+        "coverage_at_90_precision": 0.0
+      },
+      "cost": {
+        "documents": 44,
+        "llm_calls": 0,
+        "usd_total": 0.0,
+        "usd_per_doc": 0.0,
+        "seconds_total": 58.94,
+        "seconds_per_doc": 1.34,
+        "budget_exhausted": {},
+        "per_model": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "documents": 44,
+  "gold_scored": 819,
+  "recall_stage_coverage": {
+    "open": 0.9133089133089133,
+    "gated": 0.32967032967032966,
+    "dropped_by_gate": 0.6390374331550802
+  },
+  "outcomes": {
+    "emitted": {
+      "n": 321,
+      "share": 0.3919
+    },
+    "withheld": {
+      "n": 210,
+      "share": 0.2564
+    },
+    "lost_at_decode": {
+      "n": 112,
+      "share": 0.1368
+    },
+    "rejected": {
+      "n": 84,
+      "share": 0.1026
+    },
+    "never_proposed": {
+      "n": 71,
+      "share": 0.0867
+    },
+    "wrong_type": {
+      "n": 21,
+      "share": 0.0256
+    }
+  },
+  "rejected_by_guard": {
+    "typed not_tech": 68,
+    "verifier": 8,
+    "negative_lexicon": 8
+  },
+  "type_confusions": {
+    "method->task": 11,
+    "artifact->task": 6,
+    "method->field": 4
+  },
+  "examples": {
+    "withheld": [
+      "Coding agents",
+      "robot controller",
+      "Obstacle-aware contact execution",
+      "boundary construction",
+      "coding harness",
+      "LLM-based summarization",
+      "orthogonal predictive factorization",
+      "molecular dynamics",
+      "hex-prompt interface",
+      "perceptual color labeling",
+      "neural PDE surrogate",
+      "transition modeling"
+    ],
+    "rejected": [
+      "SafeHarness",
+      "Embedding spaces",
+      "embedding space",
+      "threat construction",
+      "scapegoating",
+      "dehumanization",
+      "Coding harnesses",
+      "action space",
+      "patient-derived organoids",
+      "RL",
+      "OPD",
+      "RetireOPD"
+    ],
+    "wrong_type": [
+      "Obstacle-aware route planning",
+      "string similarity",
+      "rule-based elision",
+      "Reinforcement Learning",
+      "reinforcement learning",
+      "editing-pair synthesis",
+      "transcript-based coverage measurements",
+      "Reinforcement learning",
+      "group testing",
+      "Gaussian process regression",
+      "medical image system",
+      "online transaction"
+    ],
+    "never_proposed": [
+      "bounding boxes",
+      "Embedding Models",
+      "scapegoating",
+      "JEPA-Anything",
+      "OPF",
+      "cell co-cultures",
+      "RetireOPD",
+      "Self-Retiring On-Policy Distillation",
+      "Paint-Anything",
+      "FLUX.2-4B",
+      "Pretraining",
+      "SA"
+    ],
+    "lost_at_decode": [
+      "highback",
+      "Tricyclic compounds",
+      "tricyclic compounds",
+      "Pharmaceutical compositions",
+      "tricyclic compound",
+      "heteroaryl",
+      "catalyst system",
+      "catalyst activator",
+      "polymerization process",
+      "reactor system",
+      "alkoxy",
+      "cycloalkyl"
+    ]
+  }
+}
